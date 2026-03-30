@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
+import { RouterProvider } from 'react-router-dom'
 import { onAuthStateChanged, type User } from 'firebase/auth'
-import { auth } from './services/firebase'
-import { Login } from './pages/Login'
+import { auth } from '@/services/firebase'
+import { Login } from '@/pages/Login'
+import { router } from './router'
 
 function App() {
   const [user, setUser] = useState<User | null>(null)
@@ -12,33 +14,20 @@ function App() {
       setUser(user)
       setLoading(false)
     })
-
     return () => unsubscribe()
   }, [])
 
   if (loading) {
     return (
       <div className="min-h-screen bg-[#0F172A] flex items-center justify-center">
-        <div className="text-white text-xl">Carregando...</div>
+        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
       </div>
     )
   }
 
-  if (!user) {
-    return <Login />
-  }
+  if (!user) return <Login />
 
-  return (
-    <div className="min-h-screen bg-[#0F172A] flex items-center justify-center">
-      <div className="text-center">
-        <p className="text-white text-2xl font-bold mb-2">
-          Olá, {user.displayName}! 👋
-        </p>
-        <p className="text-slate-400">Login realizado com sucesso.</p>
-        <p className="text-slate-500 text-sm mt-2">{user.email}</p>
-      </div>
-    </div>
-  )
+  return <RouterProvider router={router} />
 }
 
 export default App
