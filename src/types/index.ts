@@ -3,6 +3,7 @@ export interface Transaction {
   type: 'income' | 'expense'
   amount: number
   date: string
+  createdAt: string
   categoryId: string
   description: string
   goalId?: string
@@ -52,6 +53,7 @@ export interface CategorySummary {
   categoryId: string
   categoryName: string
   color: string
+  icon: string
   total: number
   percentage: number
 }

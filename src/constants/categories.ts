@@ -1,4 +1,4 @@
-import { Category } from '@/types'
+import type { Category } from '@/types'
 
 export const DEFAULT_CATEGORIES: Category[] = [
   { id: 'food',          name: 'Alimentação',   color: '#FF6B6B', icon: 'UtensilsCrossed', isDefault: true },
