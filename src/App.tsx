@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { RouterProvider } from 'react-router-dom'
 import { onAuthStateChanged, type User } from 'firebase/auth'
+import { Toaster } from 'sonner'
 import { auth } from '@/services/firebase'
 import { Login } from '@/pages/Login'
 import { router } from './router'
@@ -27,7 +28,12 @@ function App() {
 
   if (!user) return <Login />
 
-  return <RouterProvider router={router} />
+  return (
+    <>
+      <Toaster position="top-right" richColors />
+      <RouterProvider router={router} />
+    </>
+  )
 }
 
 export default App

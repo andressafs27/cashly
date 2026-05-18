@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useTransactionStore } from '@/store'
 import type { Transaction } from '@/types'
 
@@ -28,18 +28,22 @@ export function useTransactions() {
   )
 
   const recentTransactions = useMemo(
-    () => transactions.slice(0, 5),
+    () => [...transactions].slice(0, 5),
     [transactions]
   )
 
-  function createTransaction(data: Omit<Transaction, 'id'>) {
-    const transaction: Transaction = {
-      ...data,
-      id: crypto.randomUUID(),
-    }
-    addTransaction(transaction)
-    return transaction
-  }
+  const createTransaction = useCallback(
+    (data: Omit<Transaction, 'id' | 'createdAt'>) => {
+      const transaction: Transaction = {
+        ...data,
+        id: crypto.randomUUID(),
+        createdAt: new Date().toISOString(),
+      }
+      addTransaction(transaction)
+      return transaction
+    },
+    [addTransaction]
+  )
 
   return {
     transactions,

@@ -1,4 +1,4 @@
-import { NavLink, Outlet, useLocation } from 'react-router-dom'
+import { NavLink, Outlet } from 'react-router-dom'
 import {
   LayoutDashboard,
   ArrowLeftRight,
@@ -19,8 +19,6 @@ const navItems = [
 ]
 
 export function AppLayout() {
-  const location = useLocation()
-
   return (
     <div className="min-h-screen bg-slate-50 flex">
 
