@@ -1,2 +1,3 @@
 export { useTransactions } from './useTransactions'
 export { useGoals } from './useGoals'
+export { useTransactionFilters } from './useTransactionFilters'

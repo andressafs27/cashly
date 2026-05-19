@@ -1,12 +1,10 @@
-export interface Transaction {
+export type CategoryType = 'expense' | 'income' | 'saving'
+
+export interface Subcategory {
   id: string
-  type: 'income' | 'expense'
-  amount: number
-  date: string
-  createdAt: string
-  categoryId: string
-  description: string
-  goalId?: string
+  name: string
+  isDefault: boolean
+  isActive: boolean
 }
 
 export interface Category {
@@ -14,7 +12,22 @@ export interface Category {
   name: string
   color: string
   icon: string
+  type: CategoryType
   isDefault: boolean
+  isActive: boolean
+  subcategories: Subcategory[]
+}
+
+export interface Transaction {
+  id: string
+  type: 'income' | 'expense'
+  amount: number
+  date: string
+  createdAt: string
+  categoryId: string
+  subcategoryId?: string
+  description: string
+  goalId?: string
 }
 
 export interface Goal {
