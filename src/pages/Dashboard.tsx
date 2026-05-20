@@ -6,8 +6,8 @@ import {
 import { ptBR } from 'date-fns/locale'
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
-  PieChart, Pie,
 } from 'recharts'
+import { ExpensePieChart } from '@/components/organisms/ExpensePieChart'
 import {
   Wallet, TrendingUp, TrendingDown, Sparkles, ArrowRight,
   PiggyBank, Info, ChevronLeft, ChevronRight,
@@ -249,17 +249,6 @@ function BarChartTooltip({ active, payload, label }: ChartTooltip) {
   )
 }
 
-function PieTooltip({ active, payload }: ChartTooltip) {
-  if (!active || !payload?.length) return null
-  const d = payload[0]
-  return (
-    <div className="bg-[#070D1A] text-white text-xs rounded-xl p-3 shadow-2xl border border-white/10">
-      <p className="font-semibold" style={{ color: d.payload?.['color'] as string }}>{d.name}</p>
-      <p className="mt-1 text-slate-300">{formatCurrency(d.value ?? 0)}</p>
-    </div>
-  )
-}
-
 // ── DashboardRow ──────────────────────────────────────────────────────────────
 
 function DashboardRow({ transaction, category }: { transaction: Transaction; category?: Category }) {
@@ -293,8 +282,14 @@ export function Dashboard() {
   const { transactions, balance, createTransaction } = useTransactions()
   const categories = useCategoryStore((s) => s.categories)
   const seeded  = useRef(false)
-  const [monthOffset, setMonthOffset] = useState(0)   // 0 = mês atual, 1 = mês passado…
-  const [loading, setLoading]         = useState(true)
+  const [monthOffset,        setMonthOffset]        = useState(0)
+  const [loading,            setLoading]            = useState(true)
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(null)
+
+  function handleMonthChange(offset: number) {
+    setMonthOffset(offset)
+    setSelectedCategoryId(null) // limpa filtro ao trocar de mês
+  }
 
   // Skeleton loading: 700ms no primeiro mount
   useEffect(() => {
@@ -369,21 +364,24 @@ export function Dashboard() {
       .filter((t) => t.type === 'expense')
     return categories
       .map((cat) => ({
-        name:  cat.name,
-        value: expenses.filter((t) => t.categoryId === cat.id).reduce((a, t) => a + t.amount, 0),
-        color: cat.color,
-        fill:  cat.color,
+        name:       cat.name,
+        value:      expenses.filter((t) => t.categoryId === cat.id).reduce((a, t) => a + t.amount, 0),
+        color:      cat.color,
+        categoryId: cat.id,
       }))
       .filter((c) => c.value > 0)
       .sort((a, b) => b.value - a.value)
-      .slice(0, 5)
+      .slice(0, 8)
   }, [transactions, categories, monthOffset])
 
   const recent = useMemo(() => {
-    if (monthOffset === 0) return transactions.slice(0, 5)
-    const iv = monthInterval(monthOffset)
-    return filterByInterval(transactions, iv).slice(0, 5)
-  }, [transactions, monthOffset])
+    const base = monthOffset === 0
+      ? transactions
+      : filterByInterval(transactions, monthInterval(monthOffset))
+    return selectedCategoryId
+      ? base.filter((t) => t.categoryId === selectedCategoryId).slice(0, 8)
+      : base.slice(0, 5)
+  }, [transactions, monthOffset, selectedCategoryId])
 
   // ── Render ────────────────────────────────────────────────────────────────
 
@@ -406,7 +404,7 @@ export function Dashboard() {
         <div className="flex items-center gap-3">
           <MonthSelector
             offset={monthOffset}
-            onChange={setMonthOffset}
+            onChange={handleMonthChange}
             maxOffset={11}
           />
           <Link
@@ -530,59 +528,43 @@ export function Dashboard() {
               </ResponsiveContainer>
             </div>
 
-            {/* Donut: gastos por categoria */}
+            {/* Donut interativo: gastos por categoria */}
             <div className="lg:col-span-2 bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
               <div className="mb-4">
                 <p className="text-dark font-semibold">Gastos por categoria</p>
-                <p className="text-light text-xs mt-0.5">
+                <p className="text-light text-xs mt-0.5 capitalize">
                   {format(subMonths(new Date(), monthOffset), "MMMM 'de' yyyy", { locale: ptBR })}
                 </p>
               </div>
-
-              {pieData.length === 0 ? (
-                <div className="flex items-center justify-center h-[200px]">
-                  <p className="text-light text-sm">Sem despesas no período</p>
-                </div>
-              ) : (
-                <>
-                  <ResponsiveContainer width="100%" height={160}>
-                    <PieChart>
-                      <Pie
-                        data={pieData} cx="50%" cy="50%"
-                        innerRadius={48} outerRadius={72}
-                        paddingAngle={3} dataKey="value" strokeWidth={0}
-                      />
-                      <Tooltip content={<PieTooltip />} />
-                    </PieChart>
-                  </ResponsiveContainer>
-
-                  <div className="flex flex-col gap-2 mt-2">
-                    {pieData.slice(0, 4).map((item) => {
-                      const total = pieData.reduce((a, c) => a + c.value, 0)
-                      const pct   = total > 0 ? Math.round((item.value / total) * 100) : 0
-                      return (
-                        <div key={item.name} className="flex items-center gap-2 text-xs">
-                          <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: item.color }} aria-hidden="true" />
-                          <span className="text-mid flex-1 truncate">{item.name}</span>
-                          <span className="text-light tabular-nums">{pct}%</span>
-                          <span className="text-dark font-medium tabular-nums">{formatCurrency(item.value)}</span>
-                        </div>
-                      )
-                    })}
-                  </div>
-                </>
-              )}
+              <ExpensePieChart
+                data={pieData}
+                selectedId={selectedCategoryId}
+                onSelect={setSelectedCategoryId}
+              />
             </div>
           </>
         )}
       </div>
 
-      {/* ── Últimas transações do período ── */}
+      {/* ── Transações do período ── */}
       <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
         <div className="flex items-center justify-between mb-3">
           <div>
-            <p className="text-dark font-semibold">Transações do período</p>
-            <p className="text-light text-xs mt-0.5">{transactions.length} no total</p>
+            <div className="flex items-center gap-2">
+              <p className="text-dark font-semibold">Transações do período</p>
+              {selectedCategoryId && (() => {
+                const cat = categories.find((c) => c.id === selectedCategoryId)
+                return cat ? (
+                  <span
+                    className="flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full"
+                    style={{ backgroundColor: `${cat.color}20`, color: cat.color }}
+                  >
+                    {cat.name}
+                  </span>
+                ) : null
+              })()}
+            </div>
+            <p className="text-light text-xs mt-0.5">{recent.length} transação{recent.length !== 1 ? 'ões' : ''} exibida{recent.length !== 1 ? 's' : ''}</p>
           </div>
           <Link
             to="/transactions"
