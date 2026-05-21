@@ -4,10 +4,8 @@ import {
   format, subMonths, startOfMonth, endOfMonth, isWithinInterval, parseISO,
 } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
-import {
-  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
-} from 'recharts'
 import { ExpensePieChart } from '@/components/organisms/ExpensePieChart'
+import { MonthlyEvolutionChart } from '@/components/organisms/MonthlyEvolutionChart'
 import {
   Wallet, TrendingUp, TrendingDown, Sparkles, ArrowRight,
   PiggyBank, Info, ChevronLeft, ChevronRight,
@@ -25,14 +23,6 @@ import {
   SkeletonStatCard, SkeletonChartCard, SkeletonTransactionRow,
 } from '@/components/atoms'
 import type { Transaction, Category } from '@/types'
-
-// ── Tipos internos ────────────────────────────────────────────────────────────
-
-interface ChartTooltip {
-  active?: boolean
-  payload?: Array<{ name?: string; value?: number; color?: string; payload?: Record<string, string> }>
-  label?: string
-}
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -228,23 +218,6 @@ function MonthSelector({ offset, onChange, maxOffset }: MonthSelectorProps) {
       >
         <ChevronRight size={16} aria-hidden="true" />
       </button>
-    </div>
-  )
-}
-
-// ── Tooltips dos gráficos ─────────────────────────────────────────────────────
-
-function BarChartTooltip({ active, payload, label }: ChartTooltip) {
-  if (!active || !payload?.length) return null
-  return (
-    <div className="bg-[#070D1A] text-white text-xs rounded-xl p-3 shadow-2xl border border-white/10">
-      <p className="font-semibold mb-2 text-slate-300">{label}</p>
-      {payload.map((p) => (
-        <p key={p.name} className="flex items-center gap-2 mt-1">
-          <span style={{ color: p.color }}>●</span>
-          {p.name}: <span className="font-semibold">{formatCurrency(p.value ?? 0)}</span>
-        </p>
-      ))}
     </div>
   )
 }
@@ -499,33 +472,12 @@ export function Dashboard() {
           </>
         ) : (
           <>
-            {/* Barras: receita vs despesa */}
+            {/* Gráfico de evolução mensal */}
             <div className="lg:col-span-3 bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
-              <div className="flex items-center justify-between mb-6">
-                <div>
-                  <p className="text-dark font-semibold">Receita vs Despesa</p>
-                  <p className="text-light text-xs mt-0.5">6 meses até o período selecionado</p>
-                </div>
-                <div className="flex items-center gap-4 text-xs text-light">
-                  <span className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-sm bg-accent inline-block" aria-hidden="true" />
-                    Receitas
-                  </span>
-                  <span className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-sm bg-danger inline-block" aria-hidden="true" />
-                    Despesas
-                  </span>
-                </div>
-              </div>
-              <ResponsiveContainer width="100%" height={200}>
-                <BarChart data={barData} barSize={10} barGap={4}>
-                  <XAxis dataKey="month" tick={{ fontSize: 11, fill: '#94A3B8' }} axisLine={false} tickLine={false} />
-                  <YAxis hide />
-                  <Tooltip content={<BarChartTooltip />} cursor={{ fill: '#f8fafc' }} />
-                  <Bar dataKey="Receitas" fill="#00C48C" radius={[4, 4, 0, 0]} />
-                  <Bar dataKey="Despesas" fill="#EF4444" radius={[4, 4, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
+              <MonthlyEvolutionChart
+                transactions={transactions}
+                monthOffset={monthOffset}
+              />
             </div>
 
             {/* Donut interativo: gastos por categoria */}
