@@ -6,23 +6,22 @@ import {
 import { ptBR } from 'date-fns/locale'
 import { ExpensePieChart } from '@/components/organisms/ExpensePieChart'
 import { MonthlyEvolutionChart } from '@/components/organisms/MonthlyEvolutionChart'
+import { RecentTransactionsList } from '@/components/organisms/RecentTransactionsList'
 import {
-  Wallet, TrendingUp, TrendingDown, Sparkles, ArrowRight,
+  Wallet, TrendingUp, TrendingDown, Sparkles,
   PiggyBank, Info, ChevronLeft, ChevronRight,
   type LucideIcon,
 } from 'lucide-react'
 import { useTransactions } from '@/hooks'
 import { useCountUp } from '@/hooks'
 import { useCategoryStore } from '@/store'
-import { getCategoryIcon } from '@/utils/categoryIcon'
 import { formatCurrency } from '@/utils/formatCurrency'
-import { formatDate } from '@/utils/formatDate'
 import { auth } from '@/services/firebase'
 import { cn } from '@/utils/cn'
 import {
   SkeletonStatCard, SkeletonChartCard, SkeletonTransactionRow,
 } from '@/components/atoms'
-import type { Transaction, Category } from '@/types'
+import type { Transaction } from '@/types'
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -222,33 +221,6 @@ function MonthSelector({ offset, onChange, maxOffset }: MonthSelectorProps) {
   )
 }
 
-// ── DashboardRow ──────────────────────────────────────────────────────────────
-
-function DashboardRow({ transaction, category }: { transaction: Transaction; category?: Category }) {
-  const isIncome = transaction.type === 'income'
-  const Icon = getCategoryIcon(category?.icon ?? '')
-
-  return (
-    <div className="flex items-center gap-3 py-3 border-b border-slate-50 last:border-0 hover:bg-slate-50/50 rounded-xl px-1 transition-colors">
-      <div
-        className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
-        style={{ backgroundColor: category ? `${category.color}18` : '#f1f5f9' }}
-      >
-        <Icon size={16} style={{ color: category?.color ?? '#94A3B8' }} aria-hidden="true" />
-      </div>
-      <div className="flex-1 min-w-0">
-        <p className="text-dark text-sm font-medium truncate">{transaction.description}</p>
-        <p className="text-light text-xs mt-0.5">
-          {category?.name ?? 'Sem categoria'} · {formatDate(transaction.date)}
-        </p>
-      </div>
-      <span className={cn('text-sm font-semibold flex-shrink-0 tabular-nums', isIncome ? 'text-accent' : 'text-danger')}>
-        {isIncome ? '+' : '-'} {formatCurrency(transaction.amount)}
-      </span>
-    </div>
-  )
-}
-
 // ── Dashboard (página principal) ──────────────────────────────────────────────
 
 export function Dashboard() {
@@ -317,20 +289,6 @@ export function Dashboard() {
     : 0
 
   // ── Dados dos gráficos ────────────────────────────────────────────────────
-
-  const barData = useMemo(() =>
-    Array.from({ length: 6 }, (_, i) => {
-      const offset = monthOffset + (5 - i)
-      const iv = monthInterval(offset)
-      const tx = filterByInterval(transactions, iv)
-      return {
-        month:    format(subMonths(new Date(), offset), 'MMM', { locale: ptBR }),
-        Receitas: tx.filter((t) => t.type === 'income').reduce((a, t) => a + t.amount, 0),
-        Despesas: tx.filter((t) => t.type === 'expense').reduce((a, t) => a + t.amount, 0),
-      }
-    }),
-    [transactions, monthOffset]
-  )
 
   const pieData = useMemo(() => {
     const expenses = filterByInterval(transactions, monthInterval(monthOffset))
@@ -498,46 +456,27 @@ export function Dashboard() {
         )}
       </div>
 
-      {/* ── Transações do período ── */}
+      {/* ── Últimas transações ── */}
       <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
-        <div className="flex items-center justify-between mb-3">
-          <div>
-            <div className="flex items-center gap-2">
-              <p className="text-dark font-semibold">Transações do período</p>
-              {selectedCategoryId && (() => {
-                const cat = categories.find((c) => c.id === selectedCategoryId)
-                return cat ? (
-                  <span
-                    className="flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full"
-                    style={{ backgroundColor: `${cat.color}20`, color: cat.color }}
-                  >
-                    {cat.name}
-                  </span>
-                ) : null
-              })()}
-            </div>
-            <p className="text-light text-xs mt-0.5">{recent.length} transação{recent.length !== 1 ? 'ões' : ''} exibida{recent.length !== 1 ? 's' : ''}</p>
-          </div>
-          <Link
-            to="/transactions"
-            className="flex items-center gap-1.5 text-primary text-sm font-medium hover:gap-2.5 transition-all"
-          >
-            Ver todas <ArrowRight size={14} aria-hidden="true" />
-          </Link>
-        </div>
-
         {loading ? (
-          Array.from({ length: 5 }).map((_, i) => <SkeletonTransactionRow key={i} />)
-        ) : recent.length === 0 ? (
-          <p className="text-light text-sm text-center py-8">Nenhuma transação no período.</p>
+          <>
+            <div className="flex items-center justify-between mb-4">
+              <div className="w-32 h-4 bg-slate-200 rounded animate-pulse" />
+              <div className="w-16 h-4 bg-slate-200 rounded animate-pulse" />
+            </div>
+            {Array.from({ length: 5 }).map((_, i) => <SkeletonTransactionRow key={i} />)}
+          </>
         ) : (
-          recent.map((t) => (
-            <DashboardRow
-              key={t.id}
-              transaction={t}
-              category={categories.find((c) => c.id === t.categoryId)}
-            />
-          ))
+          <RecentTransactionsList
+            transactions={recent}
+            categories={categories}
+            totalCount={transactions.length}
+            filterLabel={
+              selectedCategoryId
+                ? categories.find((c) => c.id === selectedCategoryId)?.name
+                : undefined
+            }
+          />
         )}
       </div>
 

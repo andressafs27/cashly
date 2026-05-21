@@ -42,7 +42,7 @@ interface TooltipPayloadEntry { name?: string; value?: unknown; stroke?: string 
 function ChartTooltip({ active, payload, label }: {
   active?:  boolean
   payload?: ReadonlyArray<unknown>
-  label?:   string
+  label?:   string | number
 }) {
   if (!active || !payload?.length) return null
 
@@ -220,14 +220,14 @@ export function MonthlyEvolutionChart({ transactions, monthOffset }: Props) {
             <ReferenceDot
               x={last.month} y={last.Receitas}
               r={5} fill="#00C48C" stroke="white" strokeWidth={2}
-              isFront
+
             />
           )}
           {last && last.Despesas > 0 && (
             <ReferenceDot
               x={last.month} y={last.Despesas}
               r={5} fill="#EF4444" stroke="white" strokeWidth={2}
-              isFront
+
             />
           )}
 
