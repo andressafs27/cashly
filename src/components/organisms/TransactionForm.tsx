@@ -4,6 +4,7 @@ import { toast } from 'sonner'
 import { TrendingDown, TrendingUp } from 'lucide-react'
 import { Input, Button } from '@/components/atoms'
 import { useCategoryStore } from '@/store'
+import { useGoalStore } from '@/store'
 import { useTransactions } from '@/hooks'
 import { cn } from '@/utils/cn'
 import type { Transaction } from '@/types'
@@ -39,8 +40,14 @@ export const TransactionForm: FC<TransactionFormProps> = ({ transaction, onSucce
   const [type,      setType]      = useState<'income' | 'expense'>(transaction?.type ?? 'expense')
   const [catId,     setCatId]     = useState(transaction?.categoryId   ?? '')
   const [subcatId,  setSubcatId]  = useState(transaction?.subcategoryId ?? '')
+  const [goalId,    setGoalId]    = useState(transaction?.goalId ?? '')
   const [errors,    setErrors]    = useState<FormErrors>({})
   const [loading,   setLoading]   = useState(false)
+
+  // Metas ativas de tipo "Economizar" (save) para vincular ao lançamento
+  const saveGoals = useGoalStore((s) =>
+    s.goals.filter((g) => !g.isArchived && g.type === 'save' && g.currentAmount < g.targetAmount)
+  )
 
   const today = new Date().toISOString().split('T')[0]
 
@@ -85,6 +92,7 @@ export const TransactionForm: FC<TransactionFormProps> = ({ transaction, onSucce
       type,
       categoryId:    catId,
       subcategoryId: subcatId || undefined,
+      goalId:        goalId   || undefined,
     }
 
     if (isEdit && transaction) {
@@ -96,6 +104,7 @@ export const TransactionForm: FC<TransactionFormProps> = ({ transaction, onSucce
       e.currentTarget.reset()
       setCatId('')
       setSubcatId('')
+      setGoalId('')
     }
 
     setErrors({})
@@ -185,6 +194,27 @@ export const TransactionForm: FC<TransactionFormProps> = ({ transaction, onSucce
             <option value="">Nenhuma</option>
             {activeSubcats.map((s) => (
               <option key={s.id} value={s.id}>{s.name}</option>
+            ))}
+          </select>
+        </div>
+      )}
+
+      {/* Meta (opcional — só para metas de Economizar ativas) */}
+      {saveGoals.length > 0 && (
+        <div className="flex flex-col gap-1">
+          <label className="text-sm font-medium text-mid">
+            Vincular a uma meta
+            <span className="text-light font-normal ml-1">(opcional)</span>
+          </label>
+          <select
+            value={goalId}
+            onChange={(e) => setGoalId(e.target.value)}
+            className={selectCls()}
+            aria-label="Vincular lançamento a uma meta"
+          >
+            <option value="">Nenhuma meta</option>
+            {saveGoals.map((g) => (
+              <option key={g.id} value={g.id}>{g.title}</option>
             ))}
           </select>
         </div>
