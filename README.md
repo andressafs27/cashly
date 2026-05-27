@@ -1,40 +1,73 @@
-<h1 align="center">
-  💰 Cashly
-</h1>
+# React + TypeScript + Vite
 
-<p align="center">
-  App de controle financeiro pessoal — moderno, acessível e open source.
-</p>
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-<p align="center">
-  <img src="https://img.shields.io/badge/status-em%20construção-yellow?style=flat-square" />
-  <img src="https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react" />
-  <img src="https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript" />
-  <img src="https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?style=flat-square&logo=tailwindcss" />
-  <img src="https://img.shields.io/badge/Vite-5-646CFF?style=flat-square&logo=vite" />
-</p>
+Currently, two official plugins are available:
 
----
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-## 🚧 Em construção
+## React Compiler
 
-Este projeto está sendo desenvolvido como parte do meu portfólio pessoal,
-aplicando os aprendizados da pós-graduação em **UX Engineering (PUC Minas)**
-e da formação em **React + TypeScript (Alura)**.
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## 🛠 Stack
+## Expanding the ESLint configuration
 
-- **React 18** + **TypeScript**
-- **Vite** — build tool
-- **Tailwind CSS** — estilização
-- **Zustand** — gerenciamento de estado
-- **Recharts** — gráficos
-- **React Router v6** — navegação
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-## 📌 Em breve
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-- [ ] Dashboard financeiro
-- [ ] Registro de receitas e despesas
-- [ ] Metas financeiras
-- [ ] Relatórios em PDF
-- [ ] Dark mode
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
+
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
+
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
