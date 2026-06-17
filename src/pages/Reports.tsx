@@ -1,11 +1,16 @@
 import { useState } from 'react'
-import { Wallet, TrendingUp, TrendingDown, Sparkles, Trophy } from 'lucide-react'
+import { format } from 'date-fns'
+import { toast } from 'sonner'
+import { Wallet, TrendingUp, TrendingDown, Sparkles, Trophy, Download, Mail } from 'lucide-react'
+import { Button } from '@/components/atoms'
 import { ReportPeriodSelector } from '@/components/organisms/ReportPeriodSelector'
 import { ReportBarChart } from '@/components/organisms/ReportBarChart'
 import { CategoryBreakdownTable } from '@/components/organisms/CategoryBreakdownTable'
 import { FinancialHealthCard } from '@/components/organisms/FinancialHealthCard'
 import { TransactionList } from '@/components/organisms/TransactionList'
 import { useReportData } from '@/hooks'
+import { useCategoryStore } from '@/store'
+import { exportReportToPdf, buildEmailShareLink } from '@/services/pdfExport'
 import { getCategoryIcon } from '@/utils/categoryIcon'
 import { formatCurrency } from '@/utils/formatCurrency'
 import { cn } from '@/utils/cn'
@@ -50,21 +55,62 @@ function StatCard({ icon: Icon, label, value, variation, trendUp, iconBg, iconCo
 export function Reports() {
   const [period, setPeriod] = useState<ReportPeriod>('monthly')
   const [offset, setOffset] = useState(0)
+  const [exporting, setExporting] = useState(false)
+
+  const categories = useCategoryStore((s) => s.categories)
 
   const {
-    intervalLabel, transactions,
+    interval, intervalLabel, transactions,
     totalIncome, totalExpense, balance, savingsRate,
     incomeVariation, expenseVariation, balanceVariation,
     categoryBreakdown, top3Categories, chartData, health,
   } = useReportData(period, offset)
 
+  async function handleExportPdf() {
+    setExporting(true)
+    try {
+      await exportReportToPdf({
+        periodLabel: intervalLabel,
+        totalIncome,
+        totalExpense,
+        balance,
+        savingsRate,
+        categoryBreakdown,
+        transactions,
+        categories,
+        chartElementId: 'report-chart',
+        fileNameSuffix: format(interval.start, 'yyyy-MM'),
+      })
+      toast.success('PDF exportado com sucesso!')
+    } catch {
+      toast.error('Erro ao gerar o PDF. Tente novamente.')
+    } finally {
+      setExporting(false)
+    }
+  }
+
+  function handleEmailShare() {
+    const link = buildEmailShareLink(intervalLabel, totalIncome, totalExpense, balance)
+    window.open(link)
+  }
+
   return (
     <div className="p-4 md:p-8 max-w-6xl mx-auto">
 
       {/* Header */}
-      <div className="mb-6">
-        <h1 className="text-dark text-2xl font-bold">Relatórios</h1>
-        <p className="text-light text-sm mt-1">Análise detalhada das suas finanças por período</p>
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
+        <div>
+          <h1 className="text-dark text-2xl font-bold">Relatórios</h1>
+          <p className="text-light text-sm mt-1">Análise detalhada das suas finanças por período</p>
+        </div>
+        <div className="flex gap-2">
+          <Button variant="secondary" size="sm" iconLeft={<Mail size={14} />} onClick={handleEmailShare}>
+            Email
+          </Button>
+          <Button variant="primary" size="sm" iconLeft={<Download size={14} />} onClick={handleExportPdf} loading={exporting}>
+            Exportar PDF
+          </Button>
+        </div>
       </div>
 
       {/* Seletor de período */}
@@ -121,7 +167,7 @@ export function Reports() {
 
       {/* Gráfico + Saúde financeira */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-6">
-        <div className="lg:col-span-3 bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+        <div id="report-chart" className="lg:col-span-3 bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
           <p className="text-dark font-semibold text-sm mb-1">Receitas vs Despesas</p>
           <p className="text-light text-xs mb-4">{intervalLabel}</p>
           <ReportBarChart data={chartData} />
