@@ -93,12 +93,12 @@ export const GoalForm: FC<GoalFormProps> = ({ goal, onClose }) => {
     <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center">
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
 
-      <div className="relative w-full max-w-lg bg-white rounded-t-3xl md:rounded-2xl shadow-2xl max-h-[92vh] flex flex-col">
+      <div className="relative w-full max-w-lg bg-white dark:bg-slate-800 rounded-t-3xl md:rounded-2xl shadow-2xl max-h-[92vh] flex flex-col">
 
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 flex-shrink-0">
+        <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 dark:border-slate-700 flex-shrink-0">
           <h2 className="text-dark font-bold text-lg">{isEdit ? 'Editar meta' : 'Nova meta'}</h2>
-          <button onClick={onClose} aria-label="Fechar" className="p-1.5 rounded-lg text-light hover:text-dark hover:bg-slate-100 transition-colors">
+          <button onClick={onClose} aria-label="Fechar" className="p-1.5 rounded-lg text-light hover:text-dark hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
             <X size={20} />
           </button>
         </div>
@@ -120,7 +120,7 @@ export const GoalForm: FC<GoalFormProps> = ({ goal, onClose }) => {
                     'flex flex-col items-start gap-1.5 p-3.5 rounded-xl border text-left transition-all',
                     type === value
                       ? 'border-primary bg-primary/5 ring-2 ring-primary/20'
-                      : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                      : 'border-slate-200 dark:border-slate-600 hover:border-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60'
                   )}
                 >
                   <Icon size={18} className={type === value ? 'text-primary' : 'text-light'} aria-hidden="true" />

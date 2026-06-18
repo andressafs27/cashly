@@ -34,7 +34,7 @@ export const TransactionCard: FC<TransactionCardProps> = ({ transaction, categor
   }
 
   return (
-    <div className="flex items-center gap-4 py-3 px-4 rounded-xl hover:bg-slate-50 transition-colors group">
+    <div className="flex items-center gap-4 py-3 px-4 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors group">
       <div
         className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
         style={{ backgroundColor: category ? `${category.color}20` : '#f1f5f9' }}

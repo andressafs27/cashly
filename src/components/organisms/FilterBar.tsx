@@ -94,7 +94,7 @@ export const FilterBar: FC<FilterBarProps> = ({
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
           aria-label="Buscar transações"
-          className="w-full pl-10 pr-10 py-3 bg-white border border-slate-200 rounded-xl text-sm text-dark placeholder:text-light focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
+          className="w-full pl-10 pr-10 py-3 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-xl text-sm text-dark placeholder:text-light focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
         />
         {searchInput && (
           <button onClick={() => setSearchInput('')} aria-label="Limpar busca" className="absolute right-3.5 text-light hover:text-dark transition-colors">
@@ -116,7 +116,7 @@ export const FilterBar: FC<FilterBarProps> = ({
               'flex items-center gap-2 px-3 py-2 rounded-xl border text-sm font-medium transition-all',
               isPeriodActive
                 ? 'bg-primary text-white border-primary shadow-sm'
-                : 'bg-white text-mid border-slate-200 hover:border-slate-300'
+                : 'bg-white dark:bg-slate-800 text-mid border-slate-200 dark:border-slate-600 hover:border-slate-300'
             )}
           >
             <CalendarDays size={14} aria-hidden="true" />
@@ -128,7 +128,7 @@ export const FilterBar: FC<FilterBarProps> = ({
             <div
               role="listbox"
               aria-label="Selecionar período"
-              className="absolute top-full mt-1.5 left-0 z-30 bg-white border border-slate-100 rounded-xl shadow-lg min-w-[220px]"
+              className="absolute top-full mt-1.5 left-0 z-30 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-xl shadow-lg min-w-[220px]"
             >
               {/* Opções de período */}
               <div className="py-1">
@@ -145,7 +145,7 @@ export const FilterBar: FC<FilterBarProps> = ({
                       'w-full text-left px-4 py-2.5 text-sm transition-colors flex items-center justify-between',
                       filters.period === value
                         ? 'text-primary font-semibold bg-primary/5'
-                        : 'text-mid hover:bg-slate-50'
+                        : 'text-mid hover:bg-slate-50 dark:hover:bg-slate-800/60'
                     )}
                   >
                     {PERIOD_LABELS[value]}
@@ -158,7 +158,7 @@ export const FilterBar: FC<FilterBarProps> = ({
 
               {/* Inputs de data personalizada */}
               {filters.period === 'custom' && (
-                <div className="border-t border-slate-100 px-4 py-3">
+                <div className="border-t border-slate-100 dark:border-slate-700 px-4 py-3">
                   <p className="text-light text-xs font-medium mb-2.5">Intervalo personalizado</p>
                   <div className="flex flex-col gap-2">
                     <div>
@@ -170,8 +170,8 @@ export const FilterBar: FC<FilterBarProps> = ({
                         max={filters.dateTo || undefined}
                         onChange={(e) => setDateFrom(e.target.value)}
                         className={cn(
-                          'w-full border rounded-lg px-3 py-2 text-sm text-dark bg-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all',
-                          customDatesInvalid ? 'border-danger' : 'border-slate-200'
+                          'w-full border rounded-lg px-3 py-2 text-sm text-dark bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all',
+                          customDatesInvalid ? 'border-danger' : 'border-slate-200 dark:border-slate-600'
                         )}
                       />
                     </div>
@@ -184,8 +184,8 @@ export const FilterBar: FC<FilterBarProps> = ({
                         min={filters.dateFrom || undefined}
                         onChange={(e) => setDateTo(e.target.value)}
                         className={cn(
-                          'w-full border rounded-lg px-3 py-2 text-sm text-dark bg-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all',
-                          customDatesInvalid ? 'border-danger' : 'border-slate-200'
+                          'w-full border rounded-lg px-3 py-2 text-sm text-dark bg-white dark:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all',
+                          customDatesInvalid ? 'border-danger' : 'border-slate-200 dark:border-slate-600'
                         )}
                       />
                     </div>
@@ -213,7 +213,7 @@ export const FilterBar: FC<FilterBarProps> = ({
         </div>
 
         {/* Tipo */}
-        <div className="flex bg-white border border-slate-200 rounded-xl overflow-hidden" role="group" aria-label="Filtrar por tipo">
+        <div className="flex bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-xl overflow-hidden" role="group" aria-label="Filtrar por tipo">
           {TYPE_OPTIONS.map(({ label, value }) => (
             <button
               key={value}
@@ -225,7 +225,7 @@ export const FilterBar: FC<FilterBarProps> = ({
                   ? value === 'income'  ? 'bg-accent text-white'
                   : value === 'expense' ? 'bg-danger text-white'
                   : 'bg-primary text-white'
-                  : 'text-mid hover:bg-slate-50'
+                  : 'text-mid hover:bg-slate-50 dark:hover:bg-slate-800/60'
               )}
             >
               {label}
@@ -243,7 +243,7 @@ export const FilterBar: FC<FilterBarProps> = ({
               'flex items-center gap-2 px-3 py-2 rounded-xl border text-sm font-medium transition-all',
               filters.categoryIds.length > 0
                 ? 'bg-primary text-white border-primary shadow-sm'
-                : 'bg-white text-mid border-slate-200 hover:border-slate-300'
+                : 'bg-white dark:bg-slate-800 text-mid border-slate-200 dark:border-slate-600 hover:border-slate-300'
             )}
           >
             <Tag size={14} aria-hidden="true" />
@@ -261,7 +261,7 @@ export const FilterBar: FC<FilterBarProps> = ({
               role="listbox"
               aria-label="Selecionar categorias"
               aria-multiselectable="true"
-              className="absolute top-full mt-1.5 left-0 z-30 bg-white border border-slate-100 rounded-xl shadow-lg py-1 min-w-[200px] max-h-56 overflow-y-auto"
+              className="absolute top-full mt-1.5 left-0 z-30 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-xl shadow-lg py-1 min-w-[200px] max-h-56 overflow-y-auto"
             >
               {categories.map((cat) => {
                 const selected = filters.categoryIds.includes(cat.id)
@@ -273,7 +273,7 @@ export const FilterBar: FC<FilterBarProps> = ({
                     onClick={() => toggleCategory(cat.id)}
                     className={cn(
                       'w-full flex items-center gap-3 px-4 py-2.5 text-sm transition-colors',
-                      selected ? 'bg-primary/5' : 'hover:bg-slate-50'
+                      selected ? 'bg-primary/5' : 'hover:bg-slate-50 dark:hover:bg-slate-800/60'
                     )}
                   >
                     <span className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: cat.color }} aria-hidden="true" />

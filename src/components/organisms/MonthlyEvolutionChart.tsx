@@ -124,7 +124,7 @@ export function MonthlyEvolutionChart({ transactions, monthOffset }: Props) {
           <p className="text-light text-xs mt-0.5">Receitas e despesas</p>
         </div>
 
-        <div className="flex items-center gap-1 bg-slate-100 rounded-xl p-1" role="group" aria-label="Selecionar período">
+        <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-700 rounded-xl p-1" role="group" aria-label="Selecionar período">
           {PERIODS.map((p) => (
             <button
               key={p}
@@ -133,7 +133,7 @@ export function MonthlyEvolutionChart({ transactions, monthOffset }: Props) {
               className={cn(
                 'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150',
                 period === p
-                  ? 'bg-white text-dark shadow-sm'
+                  ? 'bg-white dark:bg-slate-800 text-dark shadow-sm'
                   : 'text-light hover:text-mid'
               )}
             >

@@ -30,7 +30,7 @@ function ProgressBar({ progress, type }: { progress: number; type: 'save' | 'lim
     : 'bg-accent'
 
   return (
-    <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden" role="progressbar"
+    <div className="w-full h-2 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden" role="progressbar"
       aria-valuenow={progress} aria-valuemin={0} aria-valuemax={100}>
       <div
         className={cn('h-full rounded-full transition-all duration-700', barColor)}
@@ -62,7 +62,7 @@ function ContributeModal({ goal, onClose }: { goal: Goal; onClose: () => void })
   return (
     <div className="fixed inset-0 z-[60] flex items-end md:items-center justify-center">
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative w-full max-w-sm bg-white rounded-t-3xl md:rounded-2xl p-6 shadow-2xl">
+      <div className="relative w-full max-w-sm bg-white dark:bg-slate-800 rounded-t-3xl md:rounded-2xl p-6 shadow-2xl">
         <h3 className="text-dark font-bold text-base mb-1">Adicionar valor</h3>
         <p className="text-light text-xs mb-4">
           Faltam <span className="font-semibold text-primary">{formatCurrency(remaining)}</span> para atingir a meta
@@ -155,8 +155,8 @@ export function GoalCard({ goal, onEdit }: GoalCardProps) {
   return (
     <>
       <div className={cn(
-        'bg-white rounded-2xl p-5 shadow-sm border flex flex-col gap-4 transition-all',
-        goal.isArchived ? 'opacity-60 border-slate-100' : 'border-slate-100 hover:shadow-md'
+        'bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border flex flex-col gap-4 transition-all',
+        goal.isArchived ? 'opacity-60 border-slate-100 dark:border-slate-700' : 'border-slate-100 dark:border-slate-700 hover:shadow-md'
       )}>
 
         {/* Header: tipo + ícone categoria + título */}
@@ -204,7 +204,7 @@ export function GoalCard({ goal, onEdit }: GoalCardProps) {
             )}
             <button onClick={handleArchive}
               aria-label={goal.isArchived ? 'Reativar meta' : 'Arquivar meta'}
-              className="p-1.5 rounded-lg text-light hover:text-mid hover:bg-slate-100 transition-colors">
+              className="p-1.5 rounded-lg text-light hover:text-mid hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
               {goal.isArchived ? <ArchiveRestore size={14} /> : <Archive size={14} />}
             </button>
             <button onClick={handleDelete} aria-label="Excluir meta"
@@ -276,7 +276,7 @@ export function GoalCard({ goal, onEdit }: GoalCardProps) {
             </button>
 
             {showDetail && (
-              <div className="mt-2 border-t border-slate-100 pt-2 flex flex-col gap-1.5">
+              <div className="mt-2 border-t border-slate-100 dark:border-slate-700 pt-2 flex flex-col gap-1.5">
                 {relatedTx.slice(0, 5).map((t) => (
                   <div key={t.id} className="flex items-center justify-between text-xs">
                     <span className="text-mid truncate flex-1 mr-2">{t.description}</span>

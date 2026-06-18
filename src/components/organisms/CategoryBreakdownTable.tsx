@@ -32,7 +32,7 @@ export const CategoryBreakdownTable: FC<Props> = ({ data }) => {
     <div className="overflow-x-auto -mx-1">
       <table className="w-full text-sm min-w-[480px]">
         <thead>
-          <tr className="text-left text-light text-xs border-b border-slate-100">
+          <tr className="text-left text-light text-xs border-b border-slate-100 dark:border-slate-700">
             <th className="font-medium pb-2 pl-1">Categoria</th>
             <th className="font-medium pb-2 text-right">Total</th>
             <th className="font-medium pb-2 text-right">% do total</th>
@@ -44,7 +44,7 @@ export const CategoryBreakdownTable: FC<Props> = ({ data }) => {
             const Icon = getCategoryIcon(category.icon)
             const isIncrease = variation !== null && variation > 0
             return (
-              <tr key={category.id} className="border-b border-slate-50 last:border-0 hover:bg-slate-50/60 transition-colors">
+              <tr key={category.id} className="border-b border-slate-50 last:border-0 hover:bg-slate-50 dark:hover:bg-slate-800/60/60 transition-colors">
                 <td className="py-2.5 pl-1">
                   <div className="flex items-center gap-2.5">
                     <div

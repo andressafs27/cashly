@@ -27,17 +27,17 @@ export function Transactions() {
 
       {/* Resumo do período filtrado */}
       <div className="grid grid-cols-3 gap-3 mb-6">
-        <div className="bg-white rounded-2xl p-3 shadow-sm border border-slate-100">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl p-3 shadow-sm border border-slate-100 dark:border-slate-700">
           <p className="text-light text-xs">Saldo</p>
           <p className={cn('text-base font-bold mt-0.5 tabular-nums', filteredBalance >= 0 ? 'text-dark' : 'text-danger')}>
             {formatCurrency(filteredBalance)}
           </p>
         </div>
-        <div className="bg-white rounded-2xl p-3 shadow-sm border border-slate-100">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl p-3 shadow-sm border border-slate-100 dark:border-slate-700">
           <p className="text-light text-xs">Receitas</p>
           <p className="text-accent text-base font-bold mt-0.5 tabular-nums">{formatCurrency(filteredIncome)}</p>
         </div>
-        <div className="bg-white rounded-2xl p-3 shadow-sm border border-slate-100">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl p-3 shadow-sm border border-slate-100 dark:border-slate-700">
           <p className="text-light text-xs">Despesas</p>
           <p className="text-danger text-base font-bold mt-0.5 tabular-nums">{formatCurrency(filteredExpense)}</p>
         </div>
@@ -62,7 +62,7 @@ export function Transactions() {
       </div>
 
       {/* Lista */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+      <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden">
         <TransactionList transactions={filtered} />
       </div>
 

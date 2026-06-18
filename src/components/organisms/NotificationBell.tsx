@@ -47,7 +47,7 @@ export function NotificationBell() {
         onClick={() => setOpen((v) => !v)}
         aria-label={unreadCount > 0 ? `Notificações, ${unreadCount} não lidas` : 'Notificações'}
         aria-expanded={open}
-        className="relative w-10 h-10 bg-white border border-slate-200 rounded-full shadow-sm flex items-center justify-center hover:bg-slate-50 transition-colors"
+        className="relative w-10 h-10 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-full shadow-sm flex items-center justify-center hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors"
       >
         <Bell size={18} className="text-mid" aria-hidden="true" />
         {unreadCount > 0 && (
@@ -61,9 +61,9 @@ export function NotificationBell() {
         <div
           role="region"
           aria-label="Lista de notificações"
-          className="absolute top-full right-0 mt-2 w-80 bg-white rounded-2xl shadow-2xl border border-slate-100 max-h-[70vh] overflow-y-auto z-50"
+          className="absolute top-full right-0 mt-2 w-80 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-100 dark:border-slate-700 max-h-[70vh] overflow-y-auto z-50"
         >
-          <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100 sticky top-0 bg-white">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100 dark:border-slate-700 sticky top-0 bg-white dark:bg-slate-800">
             <p className="text-dark font-semibold text-sm">Notificações</p>
             {unreadCount > 0 && (
               <button onClick={markAllAsRead} className="text-xs text-primary hover:underline">
@@ -86,7 +86,7 @@ export function NotificationBell() {
                     key={n.id}
                     onClick={() => markAsRead(n.id)}
                     className={cn(
-                      'w-full flex items-start gap-3 px-4 py-3 text-left border-b border-slate-50 last:border-0 hover:bg-slate-50 transition-colors',
+                      'w-full flex items-start gap-3 px-4 py-3 text-left border-b border-slate-50 last:border-0 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors',
                       !n.isRead && 'bg-primary/5'
                     )}
                   >

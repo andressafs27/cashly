@@ -12,7 +12,7 @@ export function Skeleton({ className }: SkeletonProps) {
 
 export function SkeletonStatCard() {
   return (
-    <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 flex flex-col gap-3 animate-pulse" aria-hidden="true">
+    <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-700 flex flex-col gap-3 animate-pulse" aria-hidden="true">
       <div className="flex items-center justify-between">
         <div className="w-10 h-10 rounded-xl bg-slate-200" />
         <div className="w-14 h-6 rounded-full bg-slate-200" />
@@ -29,14 +29,14 @@ export function SkeletonStatCard() {
 
 export function SkeletonChartCard({ className }: SkeletonProps) {
   return (
-    <div className={cn('bg-white rounded-2xl p-5 shadow-sm border border-slate-100 animate-pulse', className)} aria-hidden="true">
+    <div className={cn('bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-700 animate-pulse', className)} aria-hidden="true">
       <div className="flex items-center justify-between mb-6">
         <div className="flex flex-col gap-2">
           <div className="w-32 h-4 rounded-lg bg-slate-200" />
           <div className="w-20 h-3 rounded-lg bg-slate-200" />
         </div>
       </div>
-      <div className="w-full h-[200px] rounded-xl bg-slate-100" />
+      <div className="w-full h-[200px] rounded-xl bg-slate-100 dark:bg-slate-700" />
     </div>
   )
 }

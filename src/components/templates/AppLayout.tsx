@@ -14,6 +14,7 @@ import { auth } from '@/services/firebase'
 import { cn } from '@/utils/cn'
 import { useGoalNotifications } from '@/hooks'
 import { NotificationBell } from '@/components/organisms/NotificationBell'
+import { ThemeToggle } from '@/components/atoms'
 
 const navItems: { to: string; label: string; icon: LucideIcon }[] = [
   { to: '/dashboard',    label: 'Dashboard',    icon: LayoutDashboard },
@@ -46,10 +47,11 @@ export function AppLayout() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex">
 
-      {/* ── Notificações (flutuante, visível em todas as telas) ── */}
-      <div className="fixed top-4 right-4 md:top-6 md:right-8 z-40">
+      {/* ── Notificações + tema (flutuante, visível em todas as telas) ── */}
+      <div className="fixed top-4 right-4 md:top-6 md:right-8 z-40 flex items-center gap-2">
+        <ThemeToggle />
         <NotificationBell />
       </div>
 

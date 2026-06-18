@@ -4,11 +4,14 @@ import { onAuthStateChanged, type User } from 'firebase/auth'
 import { Toaster } from 'sonner'
 import { auth } from '@/services/firebase'
 import { Login } from '@/pages/Login'
+import { useTheme } from '@/hooks/useTheme'
 import { router } from './router'
 
 function App() {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
+
+  useTheme()
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {

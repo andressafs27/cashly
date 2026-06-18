@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --color-dark:    15 23 42;     /* slate-900 */
+    --color-mid:      51 65 85;    /* slate-700 */
+    --color-light:   148 163 184;  /* slate-400 */
+    --color-surface: 255 255 255;  /* white */
+  }
+
+  .dark {
+    --color-dark:    241 245 249;  /* slate-100 */
+    --color-mid:     203 213 225;  /* slate-300 */
+    --color-light:   148 163 184;  /* slate-400 — contraste ~5:1 sobre slate-800 (WCAG AA) */
+    --color-surface:  30 41 59;    /* slate-800 */
+  }
+
+  body {
+    @apply transition-colors duration-200;
+  }
+}

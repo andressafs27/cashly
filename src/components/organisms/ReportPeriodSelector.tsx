@@ -40,7 +40,7 @@ export const ReportPeriodSelector: FC<Props> = ({
     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
 
       {/* Tipo de período */}
-      <div className="flex bg-slate-100 rounded-xl p-1" role="group" aria-label="Selecionar tipo de período">
+      <div className="flex bg-slate-100 dark:bg-slate-700 rounded-xl p-1" role="group" aria-label="Selecionar tipo de período">
         {PERIODS.map((p) => (
           <button
             key={p}
@@ -48,7 +48,7 @@ export const ReportPeriodSelector: FC<Props> = ({
             aria-pressed={period === p}
             className={cn(
               'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-150',
-              period === p ? 'bg-white text-dark shadow-sm' : 'text-light hover:text-mid'
+              period === p ? 'bg-white dark:bg-slate-800 text-dark shadow-sm' : 'text-light hover:text-mid'
             )}
           >
             {PERIOD_LABELS[p]}
@@ -63,7 +63,7 @@ export const ReportPeriodSelector: FC<Props> = ({
             type="month"
             onChange={handleMonthPick}
             aria-label="Selecionar mês e ano"
-            className="border border-slate-200 rounded-xl px-2 py-1.5 text-xs text-mid focus:outline-none focus:ring-2 focus:ring-primary"
+            className="border border-slate-200 dark:border-slate-600 rounded-xl px-2 py-1.5 text-xs text-mid focus:outline-none focus:ring-2 focus:ring-primary"
           />
         )}
         {period === 'yearly' && (
@@ -74,15 +74,15 @@ export const ReportPeriodSelector: FC<Props> = ({
             max={new Date().getFullYear()}
             onChange={handleYearPick}
             aria-label="Selecionar ano"
-            className="w-20 border border-slate-200 rounded-xl px-2 py-1.5 text-xs text-mid focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-20 border border-slate-200 dark:border-slate-600 rounded-xl px-2 py-1.5 text-xs text-mid focus:outline-none focus:ring-2 focus:ring-primary"
           />
         )}
 
-        <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-xl px-2 py-1.5 shadow-sm">
+        <div className="flex items-center gap-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-xl px-2 py-1.5 shadow-sm">
           <button
             onClick={() => onOffsetChange(offset + 1)}
             aria-label="Período anterior"
-            className="p-1 rounded-lg text-light hover:text-dark hover:bg-slate-100 transition-colors"
+            className="p-1 rounded-lg text-light hover:text-dark hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
           >
             <ChevronLeft size={16} aria-hidden="true" />
           </button>
@@ -93,7 +93,7 @@ export const ReportPeriodSelector: FC<Props> = ({
             onClick={() => onOffsetChange(Math.max(0, offset - 1))}
             disabled={offset === 0}
             aria-label="Próximo período"
-            className="p-1 rounded-lg text-light hover:text-dark hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+            className="p-1 rounded-lg text-light hover:text-dark hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
           >
             <ChevronRight size={16} aria-hidden="true" />
           </button>

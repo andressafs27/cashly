@@ -30,7 +30,7 @@ function StatCard({ icon: Icon, label, value, variation, trendUp, iconBg, iconCo
   const isPositive = variation !== null && (trendUp ? variation > 0 : variation < 0)
 
   return (
-    <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
+    <div className="bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-sm border border-slate-100 dark:border-slate-700">
       <div className="flex items-center justify-between mb-3">
         <div className={cn('w-9 h-9 rounded-xl flex items-center justify-center', iconBg)}>
           <Icon size={18} className={iconColor} aria-hidden="true" />
@@ -114,7 +114,7 @@ export function Reports() {
       </div>
 
       {/* Seletor de período */}
-      <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 mb-6">
+      <div className="bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-sm border border-slate-100 dark:border-slate-700 mb-6">
         <ReportPeriodSelector
           period={period}
           offset={offset}
@@ -139,7 +139,7 @@ export function Reports() {
 
       {/* Top 3 categorias */}
       {top3Categories.length > 0 && (
-        <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 mb-6">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-700 mb-6">
           <div className="flex items-center gap-2 mb-4">
             <Trophy size={16} className="text-warning" aria-hidden="true" />
             <p className="text-dark font-semibold text-sm">Top categorias de gasto</p>
@@ -148,7 +148,7 @@ export function Reports() {
             {top3Categories.map(({ category, total, percentage }, i) => {
               const Icon = getCategoryIcon(category.icon)
               return (
-                <div key={category.id} className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl">
+                <div key={category.id} className="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-950 rounded-xl">
                   <span className="text-light text-xs font-bold w-4">#{i + 1}</span>
                   <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
                     style={{ backgroundColor: `${category.color}18` }}>
@@ -167,7 +167,7 @@ export function Reports() {
 
       {/* Gráfico + Saúde financeira */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 mb-6">
-        <div id="report-chart" className="lg:col-span-3 bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+        <div id="report-chart" className="lg:col-span-3 bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-700">
           <p className="text-dark font-semibold text-sm mb-1">Receitas vs Despesas</p>
           <p className="text-light text-xs mb-4">{intervalLabel}</p>
           <ReportBarChart data={chartData} />
@@ -178,13 +178,13 @@ export function Reports() {
       </div>
 
       {/* Tabela de categorias */}
-      <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100 mb-6">
+      <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-700 mb-6">
         <p className="text-dark font-semibold text-sm mb-4">Despesas por categoria</p>
         <CategoryBreakdownTable data={categoryBreakdown} />
       </div>
 
       {/* Lista completa de transações do período */}
-      <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+      <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-700">
         <div className="flex items-center justify-between mb-2">
           <p className="text-dark font-semibold text-sm">Transações do período</p>
           <p className="text-light text-xs">{transactions.length} no total</p>

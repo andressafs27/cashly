@@ -28,7 +28,7 @@ function IconButton({ iconName, Icon, selected, onSelect }: {
       aria-pressed={selected}
       className={cn(
         'w-9 h-9 rounded-xl flex items-center justify-center transition-all',
-        selected ? 'bg-primary/10 text-primary ring-2 ring-primary/30' : 'text-light hover:bg-slate-100 hover:text-mid'
+        selected ? 'bg-primary/10 text-primary ring-2 ring-primary/30' : 'text-light hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-mid'
       )}
     >
       <Icon size={17} aria-hidden="true" />
@@ -72,7 +72,7 @@ function SubcatRow({ subcat, onToggle, onDelete, onRename }: SubcatRowProps) {
   return (
     <div className={cn(
       'flex items-center gap-2 py-2 px-3 rounded-xl group/row transition-colors',
-      isActive ? 'hover:bg-slate-50' : 'opacity-50'
+      isActive ? 'hover:bg-slate-50 dark:hover:bg-slate-800/60' : 'opacity-50'
     )}>
       {editing ? (
         <input
@@ -179,13 +179,13 @@ export const CategoryForm: FC<CategoryFormProps> = ({ category, defaultType = 'e
     <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center">
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
 
-      <div className="relative w-full max-w-lg bg-white rounded-t-3xl md:rounded-2xl shadow-2xl max-h-[90vh] flex flex-col">
+      <div className="relative w-full max-w-lg bg-white dark:bg-slate-800 rounded-t-3xl md:rounded-2xl shadow-2xl max-h-[90vh] flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 flex-shrink-0">
+        <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 dark:border-slate-700 flex-shrink-0">
           <h2 className="text-dark font-bold text-lg">
             {isEdit ? 'Editar categoria' : 'Nova categoria'}
           </h2>
-          <button onClick={onClose} aria-label="Fechar" className="p-1.5 rounded-lg text-light hover:text-dark hover:bg-slate-100 transition-colors">
+          <button onClick={onClose} aria-label="Fechar" className="p-1.5 rounded-lg text-light hover:text-dark hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
             <X size={20} />
           </button>
         </div>
@@ -194,7 +194,7 @@ export const CategoryForm: FC<CategoryFormProps> = ({ category, defaultType = 'e
         <form onSubmit={handleSubmit} className="flex flex-col gap-6 p-6 overflow-y-auto flex-1">
 
           {/* Preview */}
-          <div className="flex items-center gap-4 p-4 bg-slate-50 rounded-2xl">
+          <div className="flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-950 rounded-2xl">
             <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-all" style={{ backgroundColor: `${selectedColor}20` }}>
               <PreviewIcon size={22} style={{ color: selectedColor }} aria-hidden="true" />
             </div>
@@ -209,7 +209,7 @@ export const CategoryForm: FC<CategoryFormProps> = ({ category, defaultType = 'e
             <p className="text-sm font-medium text-mid mb-2">Tipo</p>
             {category?.isDefault ? (
               /* Padrão: exibe o tipo mas não permite alterar */
-              <div className="flex items-center gap-2 px-3 py-2.5 bg-slate-50 rounded-xl border border-slate-100">
+              <div className="flex items-center gap-2 px-3 py-2.5 bg-slate-50 dark:bg-slate-950 rounded-xl border border-slate-100 dark:border-slate-700">
                 {(() => { const opt = TYPE_OPTIONS.find((o) => o.value === selectedType); const Icon = opt?.icon ?? TrendingDown; return <Icon size={15} className="text-light" aria-hidden="true" /> })()}
                 <span className="text-sm text-mid">{TYPE_OPTIONS.find((o) => o.value === selectedType)?.label}</span>
                 <span className="text-xs text-light ml-1">· padrão</span>
@@ -225,7 +225,7 @@ export const CategoryForm: FC<CategoryFormProps> = ({ category, defaultType = 'e
                     aria-pressed={selectedType === value}
                     className={cn(
                       'flex-1 flex items-center justify-center gap-1.5 py-2.5 rounded-xl text-sm font-semibold transition-all',
-                      selectedType === value ? activeClass : 'bg-slate-50 text-mid hover:bg-slate-100'
+                      selectedType === value ? activeClass : 'bg-slate-50 dark:bg-slate-950 text-mid hover:bg-slate-100 dark:hover:bg-slate-700'
                     )}
                   >
                     <Icon size={14} aria-hidden="true" />
@@ -276,7 +276,7 @@ export const CategoryForm: FC<CategoryFormProps> = ({ category, defaultType = 'e
               value={iconSearch}
               onChange={(e) => setIconSearch(e.target.value)}
               aria-label="Buscar ícone"
-              className="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm text-dark placeholder:text-light focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent mb-2"
+              className="w-full border border-slate-200 dark:border-slate-600 rounded-xl px-3 py-2 text-sm text-dark placeholder:text-light focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent mb-2"
             />
 
             <div className="max-h-52 overflow-y-auto pr-1 space-y-3">
@@ -329,7 +329,7 @@ export const CategoryForm: FC<CategoryFormProps> = ({ category, defaultType = 'e
             </div>
 
             {subcats.length > 0 && (
-              <div className="bg-slate-50 rounded-xl mb-3 divide-y divide-slate-100">
+              <div className="bg-slate-50 dark:bg-slate-950 rounded-xl mb-3 divide-y divide-slate-100">
                 {subcats.map((s) => (
                   <SubcatRow
                     key={s.id}
@@ -350,7 +350,7 @@ export const CategoryForm: FC<CategoryFormProps> = ({ category, defaultType = 'e
                 value={newSubcatName}
                 onChange={(e) => setNewSubcatName(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addSubcat())}
-                className="flex-1 border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-dark placeholder:text-light focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                className="flex-1 border border-slate-200 dark:border-slate-600 rounded-xl px-3 py-2.5 text-sm text-dark placeholder:text-light focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                 aria-label="Nome da nova subcategoria"
               />
               <button

@@ -126,7 +126,7 @@ export const TransactionForm: FC<TransactionFormProps> = ({ transaction, onSucce
               'flex-1 flex items-center justify-center gap-2 py-3 text-sm font-semibold transition-all',
               type === t
                 ? t === 'expense' ? 'bg-danger text-white' : 'bg-accent text-white'
-                : 'bg-surface text-light hover:bg-slate-50'
+                : 'bg-surface text-light hover:bg-slate-50 dark:hover:bg-slate-800/60'
             )}
           >
             {t === 'expense' ? <TrendingDown size={16} /> : <TrendingUp size={16} />}
