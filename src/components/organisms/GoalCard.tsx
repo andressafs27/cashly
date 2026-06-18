@@ -3,7 +3,7 @@ import {
   Pencil, Trash2, Archive, ArchiveRestore,
   Plus, ChevronDown, PiggyBank, Gauge, Calendar, Target,
 } from 'lucide-react'
-import { format, parseISO, startOfMonth, endOfMonth, isWithinInterval } from 'date-fns'
+import { format, parseISO } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { toast } from 'sonner'
 import { Button } from '@/components/atoms'
@@ -12,6 +12,7 @@ import { useTransactionStore } from '@/store'
 import { useCategoryStore } from '@/store'
 import { formatCurrency } from '@/utils/formatCurrency'
 import { getCategoryIcon } from '@/utils/categoryIcon'
+import { getEffectiveCurrentAmount, getGoalProgress } from '@/utils/goalProgress'
 import { cn } from '@/utils/cn'
 import type { Goal } from '@/types'
 
@@ -108,22 +109,12 @@ export function GoalCard({ goal, onEdit }: GoalCardProps) {
   const [showDetail,     setShowDetail]     = useState(false)
 
   // Para metas de limite: currentAmount é calculado das transações do mês atual na categoria
-  const effectiveCurrentAmount = useMemo(() => {
-    if (goal.type !== 'limit' || !goal.categoryId) return goal.currentAmount
-    const now = new Date()
-    const iv  = { start: startOfMonth(now), end: endOfMonth(now) }
-    return transactions
-      .filter((t) =>
-        t.categoryId === goal.categoryId &&
-        t.type === 'expense' &&
-        isWithinInterval(parseISO(t.date), iv)
-      )
-      .reduce((a, t) => a + t.amount, 0)
-  }, [goal, transactions])
+  const effectiveCurrentAmount = useMemo(
+    () => getEffectiveCurrentAmount(goal, transactions),
+    [goal, transactions]
+  )
 
-  const effectiveProgress = goal.targetAmount > 0
-    ? Math.min(Math.round((effectiveCurrentAmount / goal.targetAmount) * 100), 100)
-    : 0
+  const effectiveProgress = Math.min(getGoalProgress(goal.targetAmount, effectiveCurrentAmount), 100)
 
   const progress  = goal.type === 'limit' ? effectiveProgress : getProgress(goal)
   const daysLeft  = getDaysLeft(goal)

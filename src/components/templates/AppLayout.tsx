@@ -12,6 +12,8 @@ import {
 } from 'lucide-react'
 import { auth } from '@/services/firebase'
 import { cn } from '@/utils/cn'
+import { useGoalNotifications } from '@/hooks'
+import { NotificationBell } from '@/components/organisms/NotificationBell'
 
 const navItems: { to: string; label: string; icon: LucideIcon }[] = [
   { to: '/dashboard',    label: 'Dashboard',    icon: LayoutDashboard },
@@ -37,12 +39,19 @@ export function AppLayout() {
   const user = auth.currentUser
   const firstName = user?.displayName?.split(' ')[0] ?? 'Usuário'
 
+  useGoalNotifications()
+
   function handleSignOut() {
     signOut(auth)
   }
 
   return (
     <div className="min-h-screen bg-slate-50 flex">
+
+      {/* ── Notificações (flutuante, visível em todas as telas) ── */}
+      <div className="fixed top-4 right-4 md:top-6 md:right-8 z-40">
+        <NotificationBell />
+      </div>
 
       {/* ── Sidebar desktop ── */}
       <aside className="hidden md:flex flex-col w-64 bg-[#070D1A] min-h-screen fixed left-0 top-0 border-r border-white/[0.04]">
