@@ -3,6 +3,7 @@ import { X, Check, Plus, Trash2, Pencil, TrendingDown, TrendingUp, PiggyBank } f
 import { toast } from 'sonner'
 import { Input, Button, Toggle } from '@/components/atoms'
 import { useCategoryStore } from '@/store'
+import { useModalA11y } from '@/hooks'
 import { ICON_MAP, ICON_GROUPS, AVAILABLE_COLORS, getCategoryIcon } from '@/utils/categoryIcon'
 import type { LucideIcon } from 'lucide-react'
 import { cn } from '@/utils/cn'
@@ -81,7 +82,7 @@ function SubcatRow({ subcat, onToggle, onDelete, onRename }: SubcatRowProps) {
           onChange={(e) => setName(e.target.value)}
           onBlur={saveEdit}
           onKeyDown={(e) => { if (e.key === 'Enter') saveEdit(); if (e.key === 'Escape') { setName(subcat.name); setEditing(false) } }}
-          className="flex-1 text-sm text-dark border-b border-primary bg-transparent focus:outline-none pb-0.5"
+          className="flex-1 text-sm text-dark border-b border-primary bg-transparent focus:outline-none focus:ring-2 focus:ring-primary/30 rounded pb-0.5"
           aria-label={`Editar nome de ${subcat.name}`}
         />
       ) : (
@@ -133,6 +134,8 @@ export const CategoryForm: FC<CategoryFormProps> = ({ category, defaultType = 'e
   const [subcats,       setSubcats]       = useState<Subcategory[]>(category?.subcategories ?? [])
   const [newSubcatName, setNewSubcatName] = useState('')
 
+  const modalRef = useModalA11y(onClose)
+
   // ── Subcategory handlers ──
   function addSubcat() {
     const trimmed = newSubcatName.trim()
@@ -177,16 +180,22 @@ export const CategoryForm: FC<CategoryFormProps> = ({ category, defaultType = 'e
 
   return (
     <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center">
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} aria-hidden="true" />
 
-      <div className="relative w-full max-w-lg bg-white dark:bg-slate-800 rounded-t-3xl md:rounded-2xl shadow-2xl max-h-[90vh] flex flex-col">
+      <div
+        ref={modalRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="category-form-title"
+        className="relative w-full max-w-lg bg-white dark:bg-slate-800 rounded-t-3xl md:rounded-2xl shadow-2xl max-h-[90vh] flex flex-col"
+      >
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 dark:border-slate-700 flex-shrink-0">
-          <h2 className="text-dark font-bold text-lg">
+          <h2 id="category-form-title" className="text-dark font-bold text-lg">
             {isEdit ? 'Editar categoria' : 'Nova categoria'}
           </h2>
           <button onClick={onClose} aria-label="Fechar" className="p-1.5 rounded-lg text-light hover:text-dark hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
-            <X size={20} />
+            <X size={20} aria-hidden="true" />
           </button>
         </div>
 

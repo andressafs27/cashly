@@ -4,7 +4,7 @@ import { X, PiggyBank, Gauge } from 'lucide-react'
 import { toast } from 'sonner'
 import { Input, Button } from '@/components/atoms'
 import { useCategoryStore } from '@/store'
-import { useGoals } from '@/hooks'
+import { useGoals, useModalA11y } from '@/hooks'
 import { cn } from '@/utils/cn'
 import type { Goal } from '@/types'
 
@@ -43,6 +43,7 @@ export const GoalForm: FC<GoalFormProps> = ({ goal, onClose }) => {
   const [categoryId, setCategoryId] = useState(goal?.categoryId ?? '')
   const [errors,     setErrors]     = useState<FormErrors>({})
 
+  const modalRef = useModalA11y(onClose)
   const today = new Date().toISOString().split('T')[0]
 
   function handleSubmit(e: { preventDefault(): void; currentTarget: HTMLFormElement }) {
@@ -91,15 +92,21 @@ export const GoalForm: FC<GoalFormProps> = ({ goal, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center">
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} aria-hidden="true" />
 
-      <div className="relative w-full max-w-lg bg-white dark:bg-slate-800 rounded-t-3xl md:rounded-2xl shadow-2xl max-h-[92vh] flex flex-col">
+      <div
+        ref={modalRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="goal-form-title"
+        className="relative w-full max-w-lg bg-white dark:bg-slate-800 rounded-t-3xl md:rounded-2xl shadow-2xl max-h-[92vh] flex flex-col"
+      >
 
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100 dark:border-slate-700 flex-shrink-0">
-          <h2 className="text-dark font-bold text-lg">{isEdit ? 'Editar meta' : 'Nova meta'}</h2>
+          <h2 id="goal-form-title" className="text-dark font-bold text-lg">{isEdit ? 'Editar meta' : 'Nova meta'}</h2>
           <button onClick={onClose} aria-label="Fechar" className="p-1.5 rounded-lg text-light hover:text-dark hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
-            <X size={20} />
+            <X size={20} aria-hidden="true" />
           </button>
         </div>
 
@@ -154,11 +161,11 @@ export const GoalForm: FC<GoalFormProps> = ({ goal, onClose }) => {
 
           {/* Categoria (especialmente útil para limite) */}
           <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-mid">
+            <label htmlFor="goal-category" className="text-sm font-medium text-mid">
               Categoria
               <span className="text-light font-normal ml-1">(opcional)</span>
             </label>
-            <select value={categoryId} onChange={(e) => setCategoryId(e.target.value)} className={selectCls}>
+            <select id="goal-category" value={categoryId} onChange={(e) => setCategoryId(e.target.value)} className={selectCls}>
               <option value="">Nenhuma categoria</option>
               {categories.map((c) => (
                 <option key={c.id} value={c.id}>{c.name}</option>

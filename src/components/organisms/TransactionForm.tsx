@@ -122,6 +122,7 @@ export const TransactionForm: FC<TransactionFormProps> = ({ transaction, onSucce
             key={t}
             type="button"
             onClick={() => setType(t)}
+            aria-pressed={type === t}
             className={cn(
               'flex-1 flex items-center justify-center gap-2 py-3 text-sm font-semibold transition-all',
               type === t
@@ -129,7 +130,7 @@ export const TransactionForm: FC<TransactionFormProps> = ({ transaction, onSucce
                 : 'bg-surface text-light hover:bg-slate-50 dark:hover:bg-slate-800/60'
             )}
           >
-            {t === 'expense' ? <TrendingDown size={16} /> : <TrendingUp size={16} />}
+            {t === 'expense' ? <TrendingDown size={16} aria-hidden="true" /> : <TrendingUp size={16} aria-hidden="true" />}
             {t === 'expense' ? 'Despesa' : 'Receita'}
           </button>
         ))}
@@ -143,12 +144,14 @@ export const TransactionForm: FC<TransactionFormProps> = ({ transaction, onSucce
 
       {/* Categoria — agrupada por tipo conforme o tipo da transação */}
       <div className="flex flex-col gap-1">
-        <label className="text-sm font-medium text-mid">Categoria</label>
+        <label htmlFor="transaction-category" className="text-sm font-medium text-mid">Categoria</label>
         <select
+          id="transaction-category"
           value={catId}
           onChange={handleCategoryChange}
           className={selectCls(errors.categoryId)}
           aria-invalid={!!errors.categoryId}
+          aria-describedby={errors.categoryId ? 'transaction-category-error' : undefined}
         >
           <option value="" disabled>Selecione uma categoria</option>
           {type === 'income' ? (
@@ -176,17 +179,18 @@ export const TransactionForm: FC<TransactionFormProps> = ({ transaction, onSucce
             </>
           )}
         </select>
-        {errors.categoryId && <span role="alert" className="text-sm text-danger">{errors.categoryId}</span>}
+        {errors.categoryId && <span id="transaction-category-error" role="alert" className="text-sm text-danger">{errors.categoryId}</span>}
       </div>
 
       {/* Subcategoria — aparece só quando há subcategorias ativas */}
       {activeSubcats.length > 0 && (
         <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium text-mid">
+          <label htmlFor="transaction-subcategory" className="text-sm font-medium text-mid">
             Subcategoria
             <span className="text-light font-normal ml-1">(opcional)</span>
           </label>
           <select
+            id="transaction-subcategory"
             value={subcatId}
             onChange={(e) => setSubcatId(e.target.value)}
             className={selectCls()}
@@ -202,15 +206,15 @@ export const TransactionForm: FC<TransactionFormProps> = ({ transaction, onSucce
       {/* Meta (opcional — só para metas de Economizar ativas) */}
       {saveGoals.length > 0 && (
         <div className="flex flex-col gap-1">
-          <label className="text-sm font-medium text-mid">
+          <label htmlFor="transaction-goal" className="text-sm font-medium text-mid">
             Vincular a uma meta
             <span className="text-light font-normal ml-1">(opcional)</span>
           </label>
           <select
+            id="transaction-goal"
             value={goalId}
             onChange={(e) => setGoalId(e.target.value)}
             className={selectCls()}
-            aria-label="Vincular lançamento a uma meta"
           >
             <option value="">Nenhuma meta</option>
             {saveGoals.map((g) => (

@@ -7,7 +7,7 @@ import { format, parseISO } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { toast } from 'sonner'
 import { Button } from '@/components/atoms'
-import { useGoals } from '@/hooks'
+import { useGoals, useModalA11y } from '@/hooks'
 import { useTransactionStore } from '@/store'
 import { useCategoryStore } from '@/store'
 import { formatCurrency } from '@/utils/formatCurrency'
@@ -45,6 +45,7 @@ function ProgressBar({ progress, type }: { progress: number; type: 'save' | 'lim
 function ContributeModal({ goal, onClose }: { goal: Goal; onClose: () => void }) {
   const [amount, setAmount] = useState('')
   const { addContribution } = useGoals()
+  const modalRef = useModalA11y(onClose)
 
   function handleSubmit(e: { preventDefault(): void }) {
     e.preventDefault()
@@ -61,9 +62,15 @@ function ContributeModal({ goal, onClose }: { goal: Goal; onClose: () => void })
 
   return (
     <div className="fixed inset-0 z-[60] flex items-end md:items-center justify-center">
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative w-full max-w-sm bg-white dark:bg-slate-800 rounded-t-3xl md:rounded-2xl p-6 shadow-2xl">
-        <h3 className="text-dark font-bold text-base mb-1">Adicionar valor</h3>
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} aria-hidden="true" />
+      <div
+        ref={modalRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="contribute-title"
+        className="relative w-full max-w-sm bg-white dark:bg-slate-800 rounded-t-3xl md:rounded-2xl p-6 shadow-2xl"
+      >
+        <h3 id="contribute-title" className="text-dark font-bold text-base mb-1">Adicionar valor</h3>
         <p className="text-light text-xs mb-4">
           Faltam <span className="font-semibold text-primary">{formatCurrency(remaining)}</span> para atingir a meta
         </p>
@@ -80,7 +87,6 @@ function ContributeModal({ goal, onClose }: { goal: Goal; onClose: () => void })
               onChange={(e) => setAmount(e.target.value)}
               autoFocus
               className="w-full rounded-xl border border-light px-4 py-3 text-dark text-lg font-bold focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-              aria-label="Valor a adicionar"
             />
           </div>
           <div className="flex gap-2">
