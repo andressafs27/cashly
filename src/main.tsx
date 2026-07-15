@@ -6,6 +6,7 @@ import App from './App.tsx'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <App />
-    console.log('aqui tem um erro')
   </StrictMode>,
+      console.log('aqui tem um erro')
+
 )
