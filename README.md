@@ -11,6 +11,7 @@
     <img src="https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?style=flat-square&logo=tailwindcss" />
     <img src="https://img.shields.io/badge/Vite-5-646CFF?style=flat-square&logo=vite" />
     <img src="https://img.shields.io/badge/Firebase-Auth-FFCA28?style=flat-square&logo=firebase" />
+    <img src="https://img.shields.io/badge/coverage-94%25-brightgreen?style=flat-square" />
   </p>
 
   <a href="https://cashly-drab.vercel.app/" target="_blank">
@@ -90,6 +91,18 @@ npm run dev
 ```
 
 > Necessário configurar as variáveis do Firebase em `src/services/firebase.ts`
+
+---
+
+## ✅ Testes
+
+Cobertura de testes unitários para as funções mais críticas: cálculos financeiros, formatação e stores.
+
+```bash
+npm run test            # roda a suíte uma vez
+npm run test:watch      # modo watch
+npm run test:coverage   # roda com relatório de cobertura
+```
 
 ---
 
