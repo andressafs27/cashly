@@ -1,4 +1,4 @@
-import type { FC } from 'react'
+import { createElement, type FC } from 'react'
 import { Pencil, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { useTransactionStore } from '@/store'
@@ -39,11 +39,11 @@ export const TransactionCard: FC<TransactionCardProps> = ({ transaction, categor
         className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
         style={{ backgroundColor: category ? `${category.color}20` : '#f1f5f9' }}
       >
-        <CategoryIcon
-          size={18}
-          style={{ color: category?.color ?? '#94A3B8' }}
-          aria-hidden="true"
-        />
+        {createElement(CategoryIcon, {
+          size: 18,
+          style: { color: category?.color ?? '#94A3B8' },
+          'aria-hidden': 'true',
+        })}
       </div>
 
       <div className="flex-1 min-w-0">

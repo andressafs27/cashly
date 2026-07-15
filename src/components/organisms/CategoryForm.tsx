@@ -1,4 +1,4 @@
-import { type FC, useState, useRef } from 'react'
+import { type FC, useState, useRef, createElement } from 'react'
 import { X, Check, Plus, Trash2, Pencil, TrendingDown, TrendingUp, PiggyBank } from 'lucide-react'
 import { toast } from 'sonner'
 import { Input, Button, Toggle } from '@/components/atoms'
@@ -205,7 +205,7 @@ export const CategoryForm: FC<CategoryFormProps> = ({ category, defaultType = 'e
           {/* Preview */}
           <div className="flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-950 rounded-2xl">
             <div className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 transition-all" style={{ backgroundColor: `${selectedColor}20` }}>
-              <PreviewIcon size={22} style={{ color: selectedColor }} aria-hidden="true" />
+              {createElement(PreviewIcon, { size: 22, style: { color: selectedColor }, 'aria-hidden': 'true' })}
             </div>
             <div>
               <p className="text-dark font-semibold text-sm">{name || 'Nome da categoria'}</p>

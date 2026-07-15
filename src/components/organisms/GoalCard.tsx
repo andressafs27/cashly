@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, createElement } from 'react'
 import {
   Pencil, Trash2, Archive, ArchiveRestore,
   Plus, ChevronDown, PiggyBank, Gauge, Calendar, Target,
@@ -258,7 +258,7 @@ export function GoalCard({ goal, onEdit }: GoalCardProps) {
           <div className="flex items-center gap-2 text-xs text-light">
             <div className="w-5 h-5 rounded-lg flex items-center justify-center flex-shrink-0"
               style={{ backgroundColor: `${category.color}20` }}>
-              <CategoryIcon size={11} style={{ color: category.color }} aria-hidden="true" />
+              {createElement(CategoryIcon, { size: 11, style: { color: category.color }, 'aria-hidden': 'true' })}
             </div>
             <span className="text-mid">{category.name}</span>
           </div>

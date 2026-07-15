@@ -1,3 +1,4 @@
+import { createElement } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ArrowLeftRight, ArrowRight, PlusCircle } from 'lucide-react'
 import { isToday, isYesterday, differenceInCalendarDays, parseISO } from 'date-fns'
@@ -36,7 +37,7 @@ function TransactionRow({ transaction, category }: {
         style={{ backgroundColor: category ? `${category.color}18` : '#f1f5f9' }}
         aria-hidden="true"
       >
-        <Icon size={18} style={{ color: category?.color ?? '#94A3B8' }} />
+        {createElement(Icon, { size: 18, style: { color: category?.color ?? '#94A3B8' } })}
       </div>
 
       {/* Descrição + categoria + badge */}

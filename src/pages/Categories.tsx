@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, createElement } from 'react'
 import { Plus, Pencil, Trash2, TrendingUp, TrendingDown, PiggyBank, type LucideIcon } from 'lucide-react'
 import { toast } from 'sonner'
 import { CategoryForm } from '@/components/organisms/CategoryForm'
@@ -182,7 +182,7 @@ function CategoryCard({ category, usage, onToggle, onEdit, onDelete }: CategoryC
           className={cn('w-11 h-11 rounded-xl flex items-center justify-center', !isActive && 'grayscale')}
           style={{ backgroundColor: `${category.color}18` }}
         >
-          <Icon size={20} style={{ color: isActive ? category.color : '#94A3B8' }} aria-hidden="true" />
+          {createElement(Icon, { size: 20, style: { color: isActive ? category.color : '#94A3B8' }, 'aria-hidden': 'true' })}
         </div>
         <Toggle
           checked={isActive}
