@@ -1,4 +1,5 @@
 <div align="center">
+
   <img src="docs/screenshots/tela_login.png" alt="Cashly" width="100%" />
 
   <h1>💰 Cashly</h1>
@@ -11,6 +12,7 @@
     <img src="https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?style=flat-square&logo=tailwindcss" />
     <img src="https://img.shields.io/badge/Vite-5-646CFF?style=flat-square&logo=vite" />
     <img src="https://img.shields.io/badge/Firebase-Auth-FFCA28?style=flat-square&logo=firebase" />
+    <img src="https://github.com/andressafs27/cashly/actions/workflows/ci.yml/badge.svg" alt="CI status" />
   </p>
 
   <a href="https://cashly-drab.vercel.app/" target="_blank">
