@@ -1,17 +1,18 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, createElement } from 'react'
 import {
   Pencil, Trash2, Archive, ArchiveRestore,
   Plus, ChevronDown, PiggyBank, Gauge, Calendar, Target,
 } from 'lucide-react'
-import { format, parseISO, startOfMonth, endOfMonth, isWithinInterval } from 'date-fns'
+import { format, parseISO } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { toast } from 'sonner'
 import { Button } from '@/components/atoms'
-import { useGoals } from '@/hooks'
+import { useGoals, useModalA11y } from '@/hooks'
 import { useTransactionStore } from '@/store'
 import { useCategoryStore } from '@/store'
 import { formatCurrency } from '@/utils/formatCurrency'
 import { getCategoryIcon } from '@/utils/categoryIcon'
+import { getEffectiveCurrentAmount, getGoalProgress } from '@/utils/goalProgress'
 import { cn } from '@/utils/cn'
 import type { Goal } from '@/types'
 
@@ -29,7 +30,7 @@ function ProgressBar({ progress, type }: { progress: number; type: 'save' | 'lim
     : 'bg-accent'
 
   return (
-    <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden" role="progressbar"
+    <div className="w-full h-2 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden" role="progressbar"
       aria-valuenow={progress} aria-valuemin={0} aria-valuemax={100}>
       <div
         className={cn('h-full rounded-full transition-all duration-700', barColor)}
@@ -44,6 +45,7 @@ function ProgressBar({ progress, type }: { progress: number; type: 'save' | 'lim
 function ContributeModal({ goal, onClose }: { goal: Goal; onClose: () => void }) {
   const [amount, setAmount] = useState('')
   const { addContribution } = useGoals()
+  const modalRef = useModalA11y(onClose)
 
   function handleSubmit(e: { preventDefault(): void }) {
     e.preventDefault()
@@ -60,9 +62,15 @@ function ContributeModal({ goal, onClose }: { goal: Goal; onClose: () => void })
 
   return (
     <div className="fixed inset-0 z-[60] flex items-end md:items-center justify-center">
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative w-full max-w-sm bg-white rounded-t-3xl md:rounded-2xl p-6 shadow-2xl">
-        <h3 className="text-dark font-bold text-base mb-1">Adicionar valor</h3>
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} aria-hidden="true" />
+      <div
+        ref={modalRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="contribute-title"
+        className="relative w-full max-w-sm bg-white dark:bg-slate-800 rounded-t-3xl md:rounded-2xl p-6 shadow-2xl"
+      >
+        <h3 id="contribute-title" className="text-dark font-bold text-base mb-1">Adicionar valor</h3>
         <p className="text-light text-xs mb-4">
           Faltam <span className="font-semibold text-primary">{formatCurrency(remaining)}</span> para atingir a meta
         </p>
@@ -79,7 +87,6 @@ function ContributeModal({ goal, onClose }: { goal: Goal; onClose: () => void })
               onChange={(e) => setAmount(e.target.value)}
               autoFocus
               className="w-full rounded-xl border border-light px-4 py-3 text-dark text-lg font-bold focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-              aria-label="Valor a adicionar"
             />
           </div>
           <div className="flex gap-2">
@@ -108,22 +115,12 @@ export function GoalCard({ goal, onEdit }: GoalCardProps) {
   const [showDetail,     setShowDetail]     = useState(false)
 
   // Para metas de limite: currentAmount é calculado das transações do mês atual na categoria
-  const effectiveCurrentAmount = useMemo(() => {
-    if (goal.type !== 'limit' || !goal.categoryId) return goal.currentAmount
-    const now = new Date()
-    const iv  = { start: startOfMonth(now), end: endOfMonth(now) }
-    return transactions
-      .filter((t) =>
-        t.categoryId === goal.categoryId &&
-        t.type === 'expense' &&
-        isWithinInterval(parseISO(t.date), iv)
-      )
-      .reduce((a, t) => a + t.amount, 0)
-  }, [goal, transactions])
+  const effectiveCurrentAmount = useMemo(
+    () => getEffectiveCurrentAmount(goal, transactions),
+    [goal, transactions]
+  )
 
-  const effectiveProgress = goal.targetAmount > 0
-    ? Math.min(Math.round((effectiveCurrentAmount / goal.targetAmount) * 100), 100)
-    : 0
+  const effectiveProgress = Math.min(getGoalProgress(goal.targetAmount, effectiveCurrentAmount), 100)
 
   const progress  = goal.type === 'limit' ? effectiveProgress : getProgress(goal)
   const daysLeft  = getDaysLeft(goal)
@@ -164,8 +161,8 @@ export function GoalCard({ goal, onEdit }: GoalCardProps) {
   return (
     <>
       <div className={cn(
-        'bg-white rounded-2xl p-5 shadow-sm border flex flex-col gap-4 transition-all',
-        goal.isArchived ? 'opacity-60 border-slate-100' : 'border-slate-100 hover:shadow-md'
+        'bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border flex flex-col gap-4 transition-all',
+        goal.isArchived ? 'opacity-60 border-slate-100 dark:border-slate-700' : 'border-slate-100 dark:border-slate-700 hover:shadow-md'
       )}>
 
         {/* Header: tipo + ícone categoria + título */}
@@ -213,7 +210,7 @@ export function GoalCard({ goal, onEdit }: GoalCardProps) {
             )}
             <button onClick={handleArchive}
               aria-label={goal.isArchived ? 'Reativar meta' : 'Arquivar meta'}
-              className="p-1.5 rounded-lg text-light hover:text-mid hover:bg-slate-100 transition-colors">
+              className="p-1.5 rounded-lg text-light hover:text-mid hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
               {goal.isArchived ? <ArchiveRestore size={14} /> : <Archive size={14} />}
             </button>
             <button onClick={handleDelete} aria-label="Excluir meta"
@@ -261,7 +258,7 @@ export function GoalCard({ goal, onEdit }: GoalCardProps) {
           <div className="flex items-center gap-2 text-xs text-light">
             <div className="w-5 h-5 rounded-lg flex items-center justify-center flex-shrink-0"
               style={{ backgroundColor: `${category.color}20` }}>
-              <CategoryIcon size={11} style={{ color: category.color }} aria-hidden="true" />
+              {createElement(CategoryIcon, { size: 11, style: { color: category.color }, 'aria-hidden': 'true' })}
             </div>
             <span className="text-mid">{category.name}</span>
           </div>
@@ -285,7 +282,7 @@ export function GoalCard({ goal, onEdit }: GoalCardProps) {
             </button>
 
             {showDetail && (
-              <div className="mt-2 border-t border-slate-100 pt-2 flex flex-col gap-1.5">
+              <div className="mt-2 border-t border-slate-100 dark:border-slate-700 pt-2 flex flex-col gap-1.5">
                 {relatedTx.slice(0, 5).map((t) => (
                   <div key={t.id} className="flex items-center justify-between text-xs">
                     <span className="text-mid truncate flex-1 mr-2">{t.description}</span>

@@ -1,3 +1,4 @@
+import { createElement } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ArrowLeftRight, ArrowRight, PlusCircle } from 'lucide-react'
 import { isToday, isYesterday, differenceInCalendarDays, parseISO } from 'date-fns'
@@ -28,7 +29,7 @@ function TransactionRow({ transaction, category }: {
   const Icon = getCategoryIcon(category?.icon ?? '')
 
   return (
-    <li className="flex items-center gap-3.5 py-3.5 border-b border-slate-50 last:border-0 hover:bg-slate-50/60 rounded-xl px-2 -mx-2 transition-colors">
+    <li className="flex items-center gap-3.5 py-3.5 border-b border-slate-50 last:border-0 hover:bg-slate-50 dark:hover:bg-slate-800/60/60 rounded-xl px-2 -mx-2 transition-colors">
 
       {/* Ícone da categoria */}
       <div
@@ -36,7 +37,7 @@ function TransactionRow({ transaction, category }: {
         style={{ backgroundColor: category ? `${category.color}18` : '#f1f5f9' }}
         aria-hidden="true"
       >
-        <Icon size={18} style={{ color: category?.color ?? '#94A3B8' }} />
+        {createElement(Icon, { size: 18, style: { color: category?.color ?? '#94A3B8' } })}
       </div>
 
       {/* Descrição + categoria + badge */}
@@ -79,7 +80,7 @@ function EmptyTransactions({ filterLabel }: { filterLabel?: string }) {
   if (filterLabel) {
     return (
       <div className="flex flex-col items-center justify-center py-10 gap-2">
-        <div className="w-12 h-12 bg-slate-100 rounded-2xl flex items-center justify-center">
+        <div className="w-12 h-12 bg-slate-100 dark:bg-slate-700 rounded-2xl flex items-center justify-center">
           <ArrowLeftRight size={20} className="text-light" aria-hidden="true" />
         </div>
         <p className="text-dark text-sm font-medium">Sem transações em "{filterLabel}"</p>
@@ -92,7 +93,7 @@ function EmptyTransactions({ filterLabel }: { filterLabel?: string }) {
 
   return (
     <div className="flex flex-col items-center justify-center py-10 gap-3">
-      <div className="w-14 h-14 bg-slate-100 rounded-2xl flex items-center justify-center">
+      <div className="w-14 h-14 bg-slate-100 dark:bg-slate-700 rounded-2xl flex items-center justify-center">
         <ArrowLeftRight size={24} className="text-light" aria-hidden="true" />
       </div>
       <div className="text-center">

@@ -24,7 +24,7 @@ function GoalSummary({ activeGoals, completedGoals }: {
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
-      <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
+      <div className="bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-sm border border-slate-100 dark:border-slate-700">
         <p className="text-light text-xs">Metas ativas</p>
         <p className="text-dark text-2xl font-bold mt-1 tabular-nums">{activeGoals.length}</p>
         <div className="flex items-center gap-2 mt-1 text-xs text-light">
@@ -34,24 +34,24 @@ function GoalSummary({ activeGoals, completedGoals }: {
         </div>
       </div>
 
-      <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
+      <div className="bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-sm border border-slate-100 dark:border-slate-700">
         <p className="text-light text-xs">Concluídas</p>
         <p className="text-accent text-2xl font-bold mt-1 tabular-nums">{completedGoals.length}</p>
         <p className="text-light text-xs mt-1">de {activeGoals.length} ativas</p>
       </div>
 
-      <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
+      <div className="bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-sm border border-slate-100 dark:border-slate-700">
         <p className="text-light text-xs">Total acumulado</p>
         <p className="text-dark text-xl font-bold mt-1 tabular-nums">{formatCurrency(totalCurrent)}</p>
         <p className="text-light text-xs mt-1">de {formatCurrency(totalTarget)}</p>
       </div>
 
-      <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100">
+      <div className="bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-sm border border-slate-100 dark:border-slate-700">
         <p className="text-light text-xs">Progresso geral</p>
         <p className={cn('text-2xl font-bold mt-1 tabular-nums', overallPct >= 80 ? 'text-accent' : 'text-dark')}>
           {overallPct}%
         </p>
-        <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden mt-2">
+        <div className="h-1.5 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden mt-2">
           <div
             className={cn('h-full rounded-full transition-all duration-700',
               overallPct >= 80 ? 'bg-accent' : overallPct >= 50 ? 'bg-primary' : 'bg-primary'

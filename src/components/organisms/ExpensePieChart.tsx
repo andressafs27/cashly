@@ -69,8 +69,8 @@ function LegendRow({
       className={cn(
         'w-full flex items-center gap-2.5 px-3 py-2 rounded-xl transition-all duration-150 text-left group',
         selected
-          ? 'bg-slate-100 ring-1 ring-slate-200'
-          : 'hover:bg-slate-50'
+          ? 'bg-slate-100 dark:bg-slate-700 ring-1 ring-slate-200'
+          : 'hover:bg-slate-50 dark:hover:bg-slate-800/60'
       )}
       aria-pressed={selected}
       aria-label={`${item.name}: ${formatCurrency(item.value)}, ${pct}%`}
@@ -140,7 +140,7 @@ export function ExpensePieChart({ data, selectedId, onSelect }: Props) {
   if (data.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-10 gap-3">
-        <div className="w-14 h-14 bg-slate-100 rounded-2xl flex items-center justify-center">
+        <div className="w-14 h-14 bg-slate-100 dark:bg-slate-700 rounded-2xl flex items-center justify-center">
           <PieChartIcon size={24} className="text-light" aria-hidden="true" />
         </div>
         <p className="text-light text-sm text-center">Nenhuma despesa no período</p>

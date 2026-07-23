@@ -25,7 +25,7 @@ export function Toggle({ checked, onChange, disabled = false, label }: TogglePro
     >
       <span
         className={cn(
-          'absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow-sm transition-transform duration-200',
+          'absolute top-0.5 left-0.5 w-4 h-4 bg-white dark:bg-slate-800 rounded-full shadow-sm transition-transform duration-200',
           checked && 'translate-x-4'
         )}
         aria-hidden="true"

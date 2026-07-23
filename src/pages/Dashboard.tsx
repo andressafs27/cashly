@@ -124,8 +124,8 @@ function StatCard({
 
   return (
     <div className={cn(
-      'bg-white rounded-2xl p-5 shadow-sm border flex flex-col gap-3 hover:shadow-md transition-all duration-200',
-      highlight ? 'border-primary/20 ring-1 ring-primary/10' : 'border-slate-100'
+      'bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border flex flex-col gap-3 hover:shadow-md transition-all duration-200',
+      highlight ? 'border-primary/20 ring-1 ring-primary/10' : 'border-slate-100 dark:border-slate-700'
     )}>
 
       {/* Topo: ícone + badge de variação % */}
@@ -160,7 +160,7 @@ function StatCard({
       {/* Barra de progresso (taxa de poupança) */}
       {progress !== undefined && (
         <div>
-          <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+          <div className="h-1.5 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
             <div
               className={cn(
                 'h-full rounded-full transition-all duration-700',
@@ -197,12 +197,12 @@ function MonthSelector({ offset, onChange, maxOffset }: MonthSelectorProps) {
   const label = format(subMonths(new Date(), offset), "MMMM 'de' yyyy", { locale: ptBR })
 
   return (
-    <div className="flex items-center gap-1 bg-white border border-slate-200 rounded-xl px-2 py-1.5 shadow-sm">
+    <div className="flex items-center gap-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-xl px-2 py-1.5 shadow-sm">
       <button
         onClick={() => onChange(Math.min(offset + 1, maxOffset))}
         disabled={offset >= maxOffset}
         aria-label="Mês anterior"
-        className="p-1 rounded-lg text-light hover:text-dark hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+        className="p-1 rounded-lg text-light hover:text-dark hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
       >
         <ChevronLeft size={16} aria-hidden="true" />
       </button>
@@ -213,7 +213,7 @@ function MonthSelector({ offset, onChange, maxOffset }: MonthSelectorProps) {
         onClick={() => onChange(Math.max(offset - 1, 0))}
         disabled={offset === 0}
         aria-label="Próximo mês"
-        className="p-1 rounded-lg text-light hover:text-dark hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+        className="p-1 rounded-lg text-light hover:text-dark hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
       >
         <ChevronRight size={16} aria-hidden="true" />
       </button>
@@ -431,7 +431,7 @@ export function Dashboard() {
         ) : (
           <>
             {/* Gráfico de evolução mensal */}
-            <div className="lg:col-span-3 bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+            <div className="lg:col-span-3 bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-700">
               <MonthlyEvolutionChart
                 transactions={transactions}
                 monthOffset={monthOffset}
@@ -439,7 +439,7 @@ export function Dashboard() {
             </div>
 
             {/* Donut interativo: gastos por categoria */}
-            <div className="lg:col-span-2 bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+            <div className="lg:col-span-2 bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-700">
               <div className="mb-4">
                 <p className="text-dark font-semibold">Gastos por categoria</p>
                 <p className="text-light text-xs mt-0.5 capitalize">
@@ -457,7 +457,7 @@ export function Dashboard() {
       </div>
 
       {/* ── Últimas transações ── */}
-      <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+      <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-700">
         {loading ? (
           <>
             <div className="flex items-center justify-between mb-4">

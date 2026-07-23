@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, createElement } from 'react'
 import { Plus, Pencil, Trash2, TrendingUp, TrendingDown, PiggyBank, type LucideIcon } from 'lucide-react'
 import { toast } from 'sonner'
 import { CategoryForm } from '@/components/organisms/CategoryForm'
@@ -173,7 +173,7 @@ function CategoryCard({ category, usage, onToggle, onEdit, onDelete }: CategoryC
 
   return (
     <div className={cn(
-      'group bg-white rounded-2xl p-4 shadow-sm border border-slate-100 flex flex-col gap-3 transition-all',
+      'group bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-sm border border-slate-100 dark:border-slate-700 flex flex-col gap-3 transition-all',
       isActive ? 'hover:shadow-md' : 'opacity-60'
     )}>
       {/* Ícone + Toggle */}
@@ -182,7 +182,7 @@ function CategoryCard({ category, usage, onToggle, onEdit, onDelete }: CategoryC
           className={cn('w-11 h-11 rounded-xl flex items-center justify-center', !isActive && 'grayscale')}
           style={{ backgroundColor: `${category.color}18` }}
         >
-          <Icon size={20} style={{ color: isActive ? category.color : '#94A3B8' }} aria-hidden="true" />
+          {createElement(Icon, { size: 20, style: { color: isActive ? category.color : '#94A3B8' }, 'aria-hidden': 'true' })}
         </div>
         <Toggle
           checked={isActive}
@@ -207,8 +207,8 @@ function CategoryCard({ category, usage, onToggle, onEdit, onDelete }: CategoryC
       <div className="flex items-center justify-between">
         <span className={cn(
           'text-[10px] font-semibold px-2 py-0.5 rounded-full',
-          !isActive          ? 'bg-slate-100 text-slate-400' :
-          category.isDefault ? 'bg-slate-100 text-mid'       :
+          !isActive          ? 'bg-slate-100 dark:bg-slate-700 text-slate-400' :
+          category.isDefault ? 'bg-slate-100 dark:bg-slate-700 text-mid'       :
                                'bg-primary/10 text-primary'
         )}>
           {!isActive ? 'Inativa' : category.isDefault ? 'Padrão' : 'Custom'}

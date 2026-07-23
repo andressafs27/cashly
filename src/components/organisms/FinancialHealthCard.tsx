@@ -29,7 +29,7 @@ function BarRow({ label, actual, target, color }: BarRowProps) {
           <span className="text-dark font-semibold">{actual.toFixed(0)}%</span> · meta {target}%
         </span>
       </div>
-      <div className="relative h-2.5 bg-slate-100 rounded-full overflow-hidden">
+      <div className="relative h-2.5 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
         <div className={cn('h-full rounded-full transition-all duration-700', color)} style={{ width: `${clamped}%` }} />
         {/* Marcador da meta */}
         <div className="absolute top-0 h-full w-0.5 bg-dark/30" style={{ left: `${target}%` }} aria-hidden="true" />
@@ -50,7 +50,7 @@ export const FinancialHealthCard: FC<Props> = ({ health }) => {
   const verdict = getVerdict(savingsPct)
 
   return (
-    <div className="bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+    <div className="bg-white dark:bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-100 dark:border-slate-700">
       <div className="flex items-center gap-2 mb-4">
         <div className="w-8 h-8 bg-primary/10 rounded-xl flex items-center justify-center">
           <HeartPulse size={16} className="text-primary" aria-hidden="true" />
@@ -67,7 +67,7 @@ export const FinancialHealthCard: FC<Props> = ({ health }) => {
         <BarRow label="Poupança"     actual={Math.max(savingsPct, 0)} target={20} color="bg-accent" />
       </div>
 
-      <p className={cn('text-xs font-medium mt-4 pt-3 border-t border-slate-100', verdict.color)}>
+      <p className={cn('text-xs font-medium mt-4 pt-3 border-t border-slate-100 dark:border-slate-700', verdict.color)}>
         {verdict.text}
       </p>
     </div>

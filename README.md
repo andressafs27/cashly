@@ -192,13 +192,17 @@ cashly/
 
 ---
 
-### 🔮 Próximas versões
+## ✅ Testes
 
-- [ ] Integração bancária automática (Open Finance Brasil)
-- [ ] Dicas de economia personalizadas por categoria de gasto
-- [ ] Comunidade de usuários e troca de estratégias financeiras
-- [ ] App mobile com React Native
-- [ ] Backup e sincronização em nuvem
+Cobertura de testes unitários para as funções mais críticas: cálculos financeiros, formatação e stores.
+
+```bash
+npm run test            # roda a suíte uma vez
+npm run test:watch      # modo watch
+npm run test:coverage   # roda com relatório de cobertura
+```
+
+---
 
 ## 🗺 Roadmap
 

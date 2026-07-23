@@ -42,6 +42,17 @@ export interface Goal {
   isArchived: boolean
 }
 
+export type NotificationType = 'achieved' | 'exceeded' | 'deadline_warning' | 'limit_warning'
+
+export interface Notification {
+  id:        string
+  goalId:    string
+  type:      NotificationType
+  message:   string
+  createdAt: string
+  isRead:    boolean
+}
+
 export interface User {
   id: string
   name: string
