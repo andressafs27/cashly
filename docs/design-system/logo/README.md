@@ -4,39 +4,39 @@
 
 ## Conceitos
 
-- [ ] Mínimo 3 conceitos no Figma (estilo combinado: símbolo + nome; símbolo com tema de organização/camadas)
-- [ ] Para cada conceito: versão horizontal (símbolo + nome) e versão ícone solo
+- [x] Mínimo 3 conceitos: A (camadas), B (blocos) e C (monograma). Feitos em SVG, não no Figma. Pendência: refinar no Figma o conceito escolhido
+- [ ] Para cada conceito: versão horizontal (símbolo + nome) e versão ícone solo (rascunho só do conceito A: `logo-horizontal.svg`, com fonte do sistema, a converter em curvas no Figma)
 
 ## Versões de cor
 
-- [ ] Versão clara (fundo branco)
-- [ ] Versão escura (fundo `#0F172A`)
-- [ ] Versão monocromática (para bordado, gravura etc.)
+- [x] Versão clara (fundo branco): `conceito-a.svg`
+- [x] Versão escura (fundo `#0F172A`): `conceito-a-escuro.svg`
+- [x] Versão monocromática (para bordado, gravura etc.): `conceito-a-monocromatico.svg`
 
 ## Testes
 
-- [ ] Legível em 16px, 32px e 64px
-- [ ] Testado sobre fundo colorido (azul `#1B4FDE`, verde-água `#00C48C`)
-- [ ] Testado sobre foto
-- [ ] Conceito final escolhido com base nos testes
+- [x] Legível em 16px, 32px e 64px (16px só com a versão simplificada `conceito-a-simples.svg`)
+- [x] Testado sobre fundo colorido: `exports/teste-fundo-{azul,verde,escuro}.png`. Sobre azul, o colorido falha, então o guia manda usar a monocromática
+- [ ] Testado sobre foto (não há foto de teste ainda)
+- [ ] Conceito final escolhido com base nos testes (⏳ sua decisão)
 
 ## Exportação
 
-- [ ] SVG (formato principal)
-- [ ] PNG 1x, 2x e 3x
-- [ ] Favicon 32x32 e Apple Touch Icon 180x180
-- [ ] ICO para compatibilidade
+- [x] SVG (formato principal): `conceito-a.svg`
+- [x] PNG 1x, 2x e 3x: `exports/conceito-a-{1x,2x,3x}.png`
+- [x] Favicon 32x32 e Apple Touch Icon 180x180: `exports/favicon-32.png`, `exports/apple-touch-icon-180.png`
+- [x] ICO para compatibilidade: `exports/favicon.ico` (16, 32 e 48px, com a versão simplificada)
 
 ## Guia de uso
 
-- [ ] O que fazer e o que não fazer com o logo (área de respiro, cores permitidas, tamanho mínimo)
+- [x] O que fazer e o que não fazer com o logo: [guia-de-uso.md](guia-de-uso.md) (rascunho até a escolha final)
 
 ## Critérios de aceite (do card)
 
-- [ ] Mínimo 3 conceitos documentados
-- [ ] Logo final exportado em todos os formatos
-- [ ] Legível e reconhecível em 16px
-- [ ] Guia de uso documentado
+- [x] Mínimo 3 conceitos documentados
+- [ ] Logo final exportado em todos os formatos (⏳ depende da escolha do conceito final)
+- [x] Legível e reconhecível em 16px (com a versão simplificada)
+- [x] Guia de uso documentado (rascunho)
 
 ## Próximos cards que dependem deste
 

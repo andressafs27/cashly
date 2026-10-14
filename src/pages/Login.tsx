@@ -1,5 +1,6 @@
 import { signInWithPopup } from 'firebase/auth'
 import { auth, googleProvider } from '../services/firebase'
+import { LogoMark } from '../components/atoms/Logo'
 
 export function Login() {
   async function handleGoogleLogin() {
@@ -53,7 +54,7 @@ export function Login() {
 
           {/* Logo mobile */}
           <div className="flex items-center gap-3 mb-12 lg:hidden">
-            <span className="text-3xl">💰</span>
+            <LogoMark className="w-10 h-10 text-white" />
             <span className="text-white text-2xl font-bold">Cashly</span>
           </div>
 

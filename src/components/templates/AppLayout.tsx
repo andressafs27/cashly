@@ -15,6 +15,7 @@ import { cn } from '@/utils/cn'
 import { useGoalNotifications } from '@/hooks'
 import { NotificationBell } from '@/components/organisms/NotificationBell'
 import { ThemeToggle } from '@/components/atoms'
+import { LogoMark } from '@/components/atoms/Logo'
 
 const navItems: { to: string; label: string; icon: LucideIcon }[] = [
   { to: '/dashboard',    label: 'Dashboard',    icon: LayoutDashboard },
@@ -60,9 +61,7 @@ export function AppLayout() {
 
         {/* Logo */}
         <div className="flex items-center gap-3 px-6 py-6">
-          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center shadow-lg shadow-primary/30">
-            <span className="text-white font-bold text-sm tracking-tight">C</span>
-          </div>
+          <LogoMark className="w-8 h-8 text-white" />
           <span className="text-white text-xl font-bold tracking-tight">Cashly</span>
         </div>
 
