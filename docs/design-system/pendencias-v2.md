@@ -31,6 +31,12 @@
 - Remover o seed de dados fictícios do Dashboard (decidido: remover). Fica para depois, porque você pediu para seguir só a v2.
 - Pendências da v1 (S3 premium, Settings, S4–S7). Voltam quando a v2 estiver fechada ou quando você pedir.
 
+## Decisões tomadas em 14/10/2026
+
+- **Auth da API (#035):** só token do Firebase. As rotas `/auth/register`, `/auth/login` e o JWT próprio do card não serão implementadas.
+- **Landing (#033):** repositório separado. Criar o repo `cashly-landing` depende da sua autorização.
+- **Copy da landing (#032):** rascunho em [docs/wireframes/landing-page/copy.md](../wireframes/landing-page/copy.md), aguardando sua revisão.
+
 ## Já concluído
 
 - Direção criativa da marca aprovada em 13/10/2026 ([brand-direction.md](brand-direction.md)).
