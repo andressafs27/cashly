@@ -28,3 +28,6 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+# Ambientes locais (podem conter URLs de produção)
+.env.development
+.env.production
