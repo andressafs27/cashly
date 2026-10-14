@@ -11,7 +11,9 @@
 
 ## CONTEXTO DO PRODUTO
 
-**Firebase:** projeto `cashly-9ede3` — somente Auth (Google OAuth). Dados em localStorage via Zustand persist. **Sem Firestore. Sem PWA.**
+**Firebase:** projeto `cashly-9ede3` — somente Auth (Google OAuth). **Sem Firestore. Sem PWA.**
+
+**Dados (v2):** backend próprio `cashly-api` (Node 22 + Express + TypeScript + Prisma + PostgreSQL), com token do Firebase verificado via `firebase-admin`. O front migra do Zustand persist (localStorage) para chamadas à API, mantendo localStorage só como fallback durante a migração (card #038). Até a API existir, o app continua em localStorage.
 
 Qualidade de código, UX e acessibilidade importam tanto quanto features — este é um portfólio técnico.
 

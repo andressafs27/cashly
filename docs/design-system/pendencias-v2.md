@@ -11,7 +11,6 @@
 | Desenhar os conceitos de logo no Figma (mínimo 3) | #030 | Estilo combinado, símbolo de organização/camadas |
 | Exportar o logo (SVG, PNG 1x/2x/3x) e criar o guia de uso | #030 | Testar em 16px, 32px e 64px |
 | Preencher o documento de descoberta (Bloco 1) | Seções 1, 2, 4, 5 e 6 | Depende de uso da v1 e de atritos observados |
-| Escolher o modelo de dados da v2 (localStorage ou API) | #035 e #038 | Muda a regra do `claude.md` |
 
 ## Responsável: Claude (depois que o item de Andressa estiver pronto)
 
@@ -24,8 +23,8 @@
 
 ## Decisões em aberto
 
-- **Modelo de dados da v2:** manter localStorage ou migrar para API (PostgreSQL). Precisa ser decidido antes do Sprint 10.
 - **Integração com Figma:** só é necessária se a escolha for o Claude criar os conceitos. Hoje a decisão é desenhar manualmente.
+- **Backend (#035, #038):** decisão revertida em 14/10/2026: API com PostgreSQL. `claude.md` atualizado. Repositório `cashly-api` privado (a criar). Schema inclui os 5 do card mais Budget e RecurringTransaction.
 
 ## Fora do escopo agora (v1)
 
